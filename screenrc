@@ -43,7 +43,7 @@ bufferfile 'screen/screen-exchange'
 nethack on
 
 # enable visual vells
-vbell on
+vbell off
 
 # disables vbell toggle binding to use ^G as cancel.
 bind ^G
