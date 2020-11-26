@@ -10,4 +10,5 @@ runtime! rc/init/*.vim
 " runtime! rc/dein/*.vim "Comment out if using plain .nvimrc
 
 syntax on
+colorscheme iro
 filetype plugin indent on

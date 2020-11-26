@@ -3,7 +3,7 @@ set lazyredraw       "スクロール速度
 set tabstop=2        "読み込み時の<TAB>サイズ
 set softtabstop=2    "入力時の<TAB>サイズ
 set shiftwidth=2     "自動インデントサイズ
-set expandtab        "タブを空白に変換
+" set expandtab        "タブを空白に変換
 set autoindent       "インデントを自動で補完
 set smartindent      "末尾に応じてインデントの増減
 set smarttab         "行頭余白内で<TAB>を打ち込むと'shiftwidth'の数だけインデント

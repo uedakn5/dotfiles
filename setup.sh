@@ -22,6 +22,7 @@ fi
 if [ ! -d ${VIM_DIR}/rc ]; then
   ln -s $HOME/dotf/rc ${VIM_DIR}/rc
 fi
+ln -is $HOME/dotf/colors ${VIM_DIR}/colors
 ln -is $HOME/dotf/nvimrc $HOME/.vimrc
 
 # ln -is $HOME/dotf/ftplugin ${NVIM_DIR}/after/ftplugin
