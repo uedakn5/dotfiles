@@ -1,5 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
+colorscheme iro
 
 if &compatible | set nocompatible | endif
 language message C
@@ -10,5 +11,4 @@ runtime! rc/init/*.vim
 " runtime! rc/dein/*.vim "Comment out if using plain .nvimrc
 
 syntax on
-colorscheme iro
 filetype plugin indent on

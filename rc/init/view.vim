@@ -57,3 +57,4 @@ autocmd ColorScheme * highlight Structure ctermfg=205 guifg=#008800
 set vb
 set t_vb=
 set guicursor=
+set t_Co=256

@@ -1,7 +1,7 @@
 ﻿set background=dark
 highlight clear
 
-let g:colors_name = 'landscape'
+let g:colors_name = 'iro'
 if exists('syntax_on')
   syntax reset
 endif
