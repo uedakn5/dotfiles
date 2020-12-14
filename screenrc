@@ -5,8 +5,8 @@
 # @see http://www.informatik.uni-hamburg.de/RZ/software/screen/screen_toc.html
 # @see http://www.limy.org/program/screen_command.html
 #
-# Escape key is C-z, literal is a.
-escape ^z^z
+# Escape key is C-t, literal is a.
+escape ^Tt
 
 # remove buffer when closing an app.
 altscreen on
