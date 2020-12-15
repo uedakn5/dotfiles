@@ -107,6 +107,11 @@ fi
 
 export PS1
 
+if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' ]
+then
+  [ `which screen 2>/dev/null` ] && screen -rx || screen -D -RR
+fi
+
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
