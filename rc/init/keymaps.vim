@@ -1,6 +1,6 @@
 let g:mapleader = ","
-let g:maplocalleader = "m"
-nnoremap m <Nop>
+"let g:maplocalleader = "m"
+"nnoremap m <Nop>
 nnoremap , <Nop>
 
 inoremap <C-j> <esc> 

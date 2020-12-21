@@ -6,6 +6,8 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+export PATH=$PATH:~/bin
+
 case "${OSTYPE}" in
   darwin*)
     alias ls="ls -CFG"
