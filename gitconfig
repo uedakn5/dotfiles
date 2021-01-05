@@ -5,5 +5,6 @@
 	cm = commit
 	cmm = commit -m
 	co = checkout
+	graph = log --graph --date=short --pretty=\"format:%C(yellow)%h %C(cyan)%ad %C(green)%an%Creset%x09%s %C(red)%d%Creset\"
 [include]
 	path = .gitconfig.work
