@@ -8,6 +8,8 @@
 # Escape key is C-t, literal is a.
 escape ^Tt
 
+shelltitle "$ |bash"
+
 # remove buffer when closing an app.
 altscreen on
 
