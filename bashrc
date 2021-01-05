@@ -88,7 +88,13 @@ ps1_prompt() {
 }
 
 ps1_path() {
-	echo " $(C blue)$(pwd -P | sed -e "s|^${HOME%/}|~|")$(C reset)"
+	local PWD_DIR
+	if [ "$(pwd -P)" != "$(pwd)" ]; then
+		PWD_DIR=" $(C white)($(C reset)$(C cyan)$(pwd | sed -e "s|^${HOME%/}|~|")$(C reset)$(C white))"
+	else
+		PWD_DIR=""
+	fi
+	echo " $(C blue)$(pwd -P | sed -e "s|^${HOME%/}|~|")${PWD_DIR}$(C reset)"
 }
 
 function ps1_info() {
