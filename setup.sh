@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOT_FILES=(bashrc bash_profile screenrc nvimrc)
+DOT_FILES=(bashrc bash_profile screenrc nvimrc gitconfig)
 NVIM_DIR="${HOME}/.config/nvim"
 VIM_DIR="${HOME}/.vim"
 DOTFILENAME="dotfiles"
