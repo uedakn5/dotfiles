@@ -8,3 +8,5 @@ set nobackup   " バックアップ使わない
 
 set hidden     " バッファを保存せずに移動可能
 set autoread   " 他の場所で更新されたら自動的に読み込む
+
+autocmd InsertLeave * set nopaste " Escの際にpaste modeから出る
