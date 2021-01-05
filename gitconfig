@@ -3,6 +3,7 @@
 	df = diff
 	ss = status
 	cm = commit
+	cmm = commit -m
 	co = checkout
 [include]
 	path = .gitconfig.work
