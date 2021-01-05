@@ -88,7 +88,7 @@ ps1_prompt() {
 }
 
 ps1_path() {
-	echo " $(C blue)$(pwd | sed -e "s|^${HOME%/}|~|")$(C reset)"
+	echo " $(C blue)$(pwd -P | sed -e "s|^${HOME%/}|~|")$(C reset)"
 }
 
 function ps1_info() {
