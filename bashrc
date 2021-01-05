@@ -113,11 +113,6 @@ else
   PS1="${PS1}\n\[$(C cyan)\]\$\[$(C reset)\] " # 非rootユーザの場合はドル
 fi
 
-if [ "$TERM" == 'screen' ]; then
-  PS1= "\[\a\]${PS1}\[\033k\W\033\134\]"
-  export PROMPT_COMMAND= 'echo -ne "\[\a\]\[\033k\W\033\134\]"'
-fi
-
 export PS1
 
 if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' ]
