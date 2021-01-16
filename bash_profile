@@ -7,6 +7,8 @@ fi
 
 # User specific environment and startup programs
 
-PATH=$PATH:$HOME/.local/bin:$HOME/bin
+if [ "$(id -u)" -ne 0 ]; then
+	PATH=$PATH:$HOME/.local/bin:$HOME/bin
+fi
 
 export PATH
