@@ -1,26 +1,9 @@
 #!/bin/bash
 # .bashrc
 
-# Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
-
-export PATH=$PATH:~/bin
-
-case "${OSTYPE}" in
-  darwin*)
-    alias ls="ls -CFG"
-    alias ll="ls -lFhG"
-    alias la="ls -CFalG"
-    ;;
-  linux*)
-    alias ls='ls -CF --color'
-    alias ll='ls -lFh --color'
-    alias la='ls -CFal --color'
-    ;;
-esac
-# PS1の設定
 
 C() {
   case $1 in
@@ -99,8 +82,8 @@ ps1_path() {
 
 function ps1_info() {
   local END_CODE=$?
-	echo "$(C backcyan):$(C reset)$(ps1_login)$(ps1_exit_status "$END_CODE")$(ps1_git)$(ps1_rails)$(ps1_java) "
-	echo "$(C backcyan):$(C reset)$(ps1_date)$(ps1_path)"
+	echo "$(C backcyan) $(C reset)$(ps1_login)$(ps1_exit_status "$END_CODE")$(ps1_git)$(ps1_rails)$(ps1_java) "
+	echo "$(C backcyan) $(C reset)$(ps1_date)$(ps1_path)"
 }
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -109,19 +92,14 @@ fi
 
 # カーソル位置がずれる問題を回避するため、ここの部分だけは文字列連結にする
 if [ "$(id -u)" -eq 0 ]; then
-  PS1="${PS1}\n\[$(C red)\]#\[$(red)\] "
+  PS1="${PS1}\n\[\e[1;31m\]\# \[\e[m\]"
 else
-  PS1="${PS1}\n\[$(C cyan)\]\$\[$(C reset)\] " # 非rootユーザの場合はドル
+  PS1="${PS1}\n\[\e[1;34m\]\[\033k\033\134\033k\W\033\134\]\$ \[\e[m\]" # 非rootユーザの場合はドル
 fi
 
 export PS1
 
-if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' ]
+if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' -a "$TERM" != 'screen-bce' ]
 then
   [ `which screen 2>/dev/null` ] && screen -rx || screen -D -RR
 fi
-
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
-
-# User specific aliases and functions

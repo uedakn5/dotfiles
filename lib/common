@@ -1,0 +1,19 @@
+export PATH=$PATH:$HOME/bin
+
+case "${OSTYPE}" in
+  darwin*)
+    alias ls="ls -CFG"
+    alias ll="ls -lFhG"
+    alias la="ls -CFalG"
+    ;;
+  linux*)
+    alias ls='ls -CF --color=auto'
+    alias ll='ls -lFh --color=auto'
+    alias la='ls -CFal --color=auto'
+    ;;
+esac
+
+alias v='vim'
+alias vi='vim'
+alias so='source'
+alias cdp='cd -P'
