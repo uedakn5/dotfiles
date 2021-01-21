@@ -17,3 +17,8 @@ alias v='vim'
 alias vi='vim'
 alias so='source'
 alias cdp='cd -P'
+
+mybkupdb () {
+	v_datetime=$(date "+%Y%m%d_%H%M%S")
+	mysqldump -u $1 -p -h $2 --routine $3 > ${4:-$3}_${v_datetime}.sql
+}
