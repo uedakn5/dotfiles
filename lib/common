@@ -7,9 +7,9 @@ case "${OSTYPE}" in
     alias la="ls -CFalG"
     ;;
   linux*)
-    alias ls='ls -CF --color=auto'
-    alias ll='ls -lFh --color=auto'
-    alias la='ls -CFal --color=auto'
+    alias ls='ls -CF --color'
+    alias ll='ls -lFh --color'
+    alias la='ls -CFal --color'
     ;;
 esac
 
