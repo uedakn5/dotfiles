@@ -7,6 +7,6 @@ if [ -f /etc/bashrc ]; then
 fi
 
 if [ "$(id -u)" -ne 0 ]; then
-	. $HOME/dotfiles/lib/common
 	. $HOME/dotfiles/lib/bashrc_core
+	. $HOME/dotfiles/lib/common
 fi
