@@ -1,10 +1,32 @@
 [alias]
+	adp = add -p
+	adu = add -u
+	adup = add -u -p
+	adpu = add -u -p
+	amend = commit --amend
+	forcepush = push --force
+	puss = push -n
 	b = branch
+	br = for-each-ref --sort=committerdate refs/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+	bg = log --graph --simplify-by-decoration --pretty=format:'%d' --all
+	bnn = rev-parse --abbrev-ref HEAD
+	cancel = reset --soft HEAD^
+	unstage = reset -p --
 	df = diff
+	dfc = diff --cached
+	dff = diff --name-only
+	dfw = diff --word-diff
 	ss = status
+	sss = status -uno
+	cp = cherry-pick
 	cm = commit
 	cmm = commit -m
 	co = checkout
-	graph = log --graph --date=short --pretty=\"format:%C(yellow)%h %C(cyan)%ad %C(green)%an%Creset%x09%s %C(red)%d%Creset\"
+	co = checkout -b
+	graph = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
+	gr = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
+	al = config --get-regexp alias.*
+	today = gr --oneline --since='12 hour ago'
+	rev = remote -v
 [include]
 	path = .gitconfig.work
