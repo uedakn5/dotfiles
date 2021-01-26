@@ -15,6 +15,7 @@ esac
 
 alias v='vim'
 alias vi='vim'
+alias view='view -M'
 alias so='source'
 alias cdp='cd -P'
 
