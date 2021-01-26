@@ -19,8 +19,18 @@ idle off
 autodetach on
 nethack on
 shelltitle '$ |bash'
+bind ^G eval 'echo "get back to an ordinary life."'
 bind w  windowlist -b
 bind ^W windowlist -b -m
+bind r eval 'command -c cresize' 'echo "Resize Mode Running..."'
+bind R eval 'source $HOME/.screenrc' 'echo ".screenrc reloaded!"'
+bind -c cresize j eval 'resize +1'  'command -c cresize'
+bind -c cresize k eval 'resize -1'  'command -c cresize'
+bind -c cresize J eval 'resize +10' 'command -c cresize'
+bind -c cresize K eval 'resize -10' 'command -c cresize'
+bind -c cresize = eval 'resize ='   'command -c cresize'
+bind -c cresize n eval 'resize min' 'command -c cresize'
+bind -c cresize x eval 'resize max' 'command -c cresize'
 logfile 'screen/log/screenlog.%H.%Y%m%d-%02c:%s-%n.%t.log'
 logtstamp on
 logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n"
