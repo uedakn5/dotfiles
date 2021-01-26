@@ -5,6 +5,9 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# turn off debug trap, turn on later if we're in screen
+trap "" DEBUG
+
 C() {
   case $1 in
     black)    echo -e -n "\033[1;30m";;
@@ -102,4 +105,23 @@ export PS1
 if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' -a "$TERM" != 'screen-bce' ]
 then
   [ `which screen 2>/dev/null` ] && screen -rx || screen -D -RR
+fi
+
+if [ "$TERM" = "screen" -o "$TERM" = "screen-bce" ]; then
+    export PROMPT_COMMAND='true'
+    set_screen_window() {
+      HPWD=`basename "$PWD"`
+      if [ "$HPWD" = "$USER" ]; then HPWD='~'; fi
+      if [ ${#HPWD} -ge 10 ]; then HPWD='..'${HPWD:${#HPWD}-8:${#HPWD}}; fi
+      case "$BASH_COMMAND" in
+        *\033]0*);;
+        "true")
+            printf '\ek%s\e\\' "$HPWD:"
+            ;;
+        *)
+            printf '\ek%s\e\\' "$HPWD:${BASH_COMMAND:0:20}"
+            ;;
+      esac
+    }
+    trap set_screen_window DEBUG
 fi

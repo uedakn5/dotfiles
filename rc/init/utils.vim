@@ -5,3 +5,11 @@ if has("autocmd")
 	\   exe "normal! g'\"" |
 	\ endif
 endif
+
+if &term == "screen"
+  let &titlestring = "vim(" . expand("%:t") . ")"
+  set t_ts=k
+  set t_fs=\
+  set title
+endif
+autocmd VimEnter,TabEnter,WinEnter,BufReadPost,FileReadPost,BufNewFile * let &titlestring = 'vim(' . expand("%:t") . ')'
