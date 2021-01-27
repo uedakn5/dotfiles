@@ -22,7 +22,7 @@
 	cm = commit
 	cmm = commit -m
 	co = checkout
-	co = checkout -b
+	cob = checkout -b
 	graph = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
 	gr = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
 	al = config --get-regexp alias.*
