@@ -29,3 +29,7 @@ mybkupdbtablenospace () {
 	v_datetime=$(date "+%Y%m%d_%H%M%S")
 	mysqldump --no-tablespaces -u $1 -p -h $2 --routine $3 > ${4:-$3}_${v_datetime}.sql
 }
+
+mygrep () {
+	find . -type f | xargs grep $1
+}
