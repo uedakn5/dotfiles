@@ -1,7 +1,7 @@
-﻿set background=dark
+set background=dark
 highlight clear
 
-let g:colors_name = 'iro'
+let g:colors_name = 'landscape'
 if exists('syntax_on')
   syntax reset
 endif
@@ -107,3 +107,10 @@ if exists('##CmdlineEnter')
     autocmd CmdlineLeave /,\? :highlight Search cterm=reverse ctermfg=178 ctermbg=236 gui=reverse guifg=#dfaf00 guibg=#303030
   augroup END
 endif
+
+" Conceal
+" CursorIM
+" Directory
+" ModeMsg
+" MoreMsg
+" Question

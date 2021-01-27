@@ -1,6 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
-colorscheme iro
+colorscheme landscape
 
 if &compatible | set nocompatible | endif
 language message C
