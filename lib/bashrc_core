@@ -108,12 +108,13 @@ fi
 
 export PS1
 
-if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' -a "$TERM" != 'screen-bce' ]
+#if [ "$TERM" != 'screen' -a "$TERM" != 'dumb' -a "$TERM" != 'screen-bce' ]
+if [ -z "$STY" -a "$TERM" != 'dumb' ]
 then
   [ `which screen 2>/dev/null` ] && screen -rx || screen -D -RR
 fi
 
-if [ "$TERM" = "screen" -o "$TERM" = "screen-bce" ]; then
+if [ -n "$STY" ]; then
     export PROMPT_COMMAND='true'
     set_screen_window() {
       HPWD=`basename "$PWD"`
