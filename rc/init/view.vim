@@ -58,3 +58,4 @@ set vb
 set t_vb=
 set guicursor=
 set t_Co=256
+set t_ut=

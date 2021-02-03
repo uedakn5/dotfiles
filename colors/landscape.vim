@@ -6,7 +6,7 @@ if exists('syntax_on')
   syntax reset
 endif
 
-highlight Normal gui=none guifg=#dddddd guibg=grey0
+highlight Normal ctermbg=235 gui=none guifg=#dddddd guibg=grey0
 highlight Comment term=none ctermfg=243 ctermbg=none gui=none guifg=#767676
 highlight Constant term=none ctermfg=111 gui=none guifg=#87afff
 highlight String term=none ctermfg=215 ctermbg=none gui=none guifg=#ffaf5f
@@ -72,12 +72,12 @@ highlight Folded term=none ctermfg=247 ctermbg=235 guifg=#9e9e9e guibg=#262626
 highlight FoldColumn term=none ctermfg=247 ctermbg=235 guifg=#9e9e9e guibg=#262626
 highlight SignColumn term=none ctermfg=247 ctermbg=235 guifg=#9e9e9e guibg=#262626
 highlight SpecialKey term=underline ctermfg=237 gui=none guifg=darkgray
-highlight NonText term=none ctermfg=black gui=none guifg=black
+highlight NonText term=none ctermfg=black ctermbg=none gui=none guifg=black
 highlight StatusLine term=none gui=none guifg=#1c1c1c guibg=#eeeeee gui=none ctermfg=234 ctermbg=255 cterm=none
 highlight StatusLineNC term=none gui=none guifg=#262626 guibg=#585858 gui=none ctermfg=235 ctermbg=240 cterm=none
 if get(g:, 'landscape_cursorline', 1)
-  highlight CursorLine term=none cterm=none ctermbg=235 gui=none guibg=#262626
-  highlight CursorLineNr term=underline cterm=bold ctermfg=148 ctermbg=235 gui=bold guifg=#afdf00 guibg=#262626
+  highlight CursorLine term=none cterm=none ctermbg=233 gui=none guibg=#262626
+  highlight CursorLineNr term=underline cterm=bold ctermfg=196 ctermbg=233 gui=bold guifg=#afdf00 guibg=#262626
 else
   highlight clear CursorLine
   highlight CursorLineNr term=none cterm=none ctermbg=none gui=none guibg=NONE
@@ -85,7 +85,7 @@ endif
 highlight ColorColumn term=none cterm=none ctermbg=239 gui=none guibg=#4e4e4e
 highlight Cursor term=reverse cterm=reverse gui=reverse guifg=NONE guibg=NONE
 highlight CursorColumn term=none cterm=none ctermbg=235 gui=none guibg=#262626
-highlight LineNr term=none ctermfg=58 ctermbg=none guifg=#5f5f00 guibg=bg
+highlight LineNr term=none ctermfg=94 ctermbg=none guifg=#5f5f00 guibg=bg
 highlight MatchParen ctermfg=none ctermbg=238 guibg=#4e4e4e
 highlight Pmenu ctermfg=233 ctermbg=249 gui=none guifg=#121212 guibg=#b2b2b2
 highlight PmenuSel ctermfg=233 ctermbg=242 gui=none guifg=#121212 guibg=#666666
