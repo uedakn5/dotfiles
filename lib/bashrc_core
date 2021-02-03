@@ -5,6 +5,12 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# disable Ctrl-S
+if [ "$SSH_TTY" != "" ]; then
+	stty stop undef
+	stty start undef
+fi
+
 # turn off debug trap, turn on later if we're in screen
 trap "" DEBUG
 
