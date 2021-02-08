@@ -1,0 +1,39 @@
+# Required:
+[[plugins]]
+repo      = 'Shougo/dein.vim'
+
+[[plugins]]
+repo      = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo      = 'tpope/vim-surround'
+
+[[plugins]]
+repo      = 'easymotion/vim-easymotion'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-easymotion.vim'
+
+[[plugins]]
+repo      = 'scrooloose/nerdtree'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-nerdtree.vim'
+
+[[plugins]]
+repo      = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo      = 'tpope/vim-fugitive'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-fugitive.vim'
+
+[[plugins]]
+repo      = 'ryanoasis/vim-devicons'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-devicons.vim'
+
+[[plugins]]
+repo      = 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+[[plugins]]
+repo      = 'itchyny/lightline.vim'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
+
+[[plugins]]
+repo      = 'kien/rainbow_parentheses.vim'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'

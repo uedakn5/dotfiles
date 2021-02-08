@@ -3,7 +3,7 @@ scriptencoding utf-8
 colorscheme landscape
 
 " Comment out on PRODUCTION env.
-let s:is_development = 1
+let s:is_development = 0
 
 if &compatible | set nocompatible | endif
 language message C

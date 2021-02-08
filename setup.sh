@@ -27,6 +27,5 @@ fi
 ln -is $DOTFILEPATH/colors ${VIM_DIR}/colors
 ln -is $DOTFILEPATH/nvimrc $HOME/.vimrc
 ln -is $DOTFILEPATH/bin $HOME/bin
-
-# ln -is $HOME/dotf/ftplugin ${NVIM_DIR}/after/ftplugin
-# ln -is $HOME/dotf/ftplugin ${VIM_DIR}/after/ftplugin
+ln -is $HOME/dotf/ftplugin ${NVIM_DIR}/after/ftplugin
+ln -is $HOME/dotf/ftplugin ${VIM_DIR}/after/ftplugin
