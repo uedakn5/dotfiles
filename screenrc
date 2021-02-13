@@ -40,6 +40,6 @@ hardcopy_append on
 bufferfile 'screen/screen-exchange'
 hardstatus alwayslastline '%?%h%:#%n %{= dR}%t%{= .d} @%H%? %= %{= .W}LOADAVG [%{= .B}%l%{= .W}] %{= .R}%Y-%m-%d %02c:%s'
 hardstatus off
-caption always '%{=r dd}%-Lw%40L>%?%F%{+b kG}%:[%{=r dd}%? %n%f %t %?%F%{-}%:]%?%+Lw'
+caption always '%{=r dd}%-Lw%40L>%?%F%{+b kG}%:[%{=r dd}%? %n%f %t %?%F%{-}%:]%?%?%F%{+b G.}%{-}%?%+Lw'
 sorendition '+rb .R'
 chdir

@@ -1,4 +1,4 @@
-let g:lightline = { 'colorscheme': 'landscape',
+let g:lightline = { 'colorscheme': 'materia',
         \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
         \   'left': [
@@ -9,7 +9,6 @@ let g:lightline = { 'colorscheme': 'landscape',
         \   'right': [
         \     ['fileformat', 'fileencoding', 'filetype'],
         \     ['lineinfo', 'percent'],
-        \     ['ale'],
         \   ]
         \ },
         \ 'component_function': {
@@ -24,8 +23,9 @@ let g:lightline = { 'colorscheme': 'landscape',
         \   'syntastic': 'SyntasticStatuslineFlag',
         \   'charcode': 'MyCharCode',
         \   'gitgutter': 'MyGitGutter',
-        \   'ale': 'ALEGetStatusLine',
         \ },
+        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
         \ }
 
 
@@ -129,3 +129,5 @@ function! MyCharCode()
 
   return "'". char ."' ". nr
 endfunction
+
+set noshowmode
