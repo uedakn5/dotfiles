@@ -19,6 +19,8 @@ alias view='view -M'
 alias so='source'
 alias cdp='cd -P'
 alias g='git'
+alias vdf='vimdiff'
+alias vimdf='vimdiff'
 
 mybkupdb () {
 	v_datetime=$(date "+%Y%m%d_%H%M%S")
