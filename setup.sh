@@ -8,24 +8,24 @@ DOTFILEPATH="${HOME}/${DOTFILENAME}"
 
 for file in ${DOT_FILES[@]}
 do
-  ln -is $DOTFILEPATH/$file $HOME/.$file
+  ln -nfs $DOTFILEPATH/$file $HOME/.$file
 done
 
 # mkdir -p $HOME/.config/fish
-# ln -is $HOME/dotf/config.fish $HOME/.config/fish/config.fish
-# ln -is $HOME/dotf/config.fish $HOME/config.fish
+# ln -nfs $HOME/dotf/config.fish $HOME/.config/fish/config.fish
+# ln -nfs $HOME/dotf/config.fish $HOME/config.fish
 
 mkdir -p $NVIM_DIR
 mkdir -p $VIM_DIR
-ln -is $DOTFILEPATH/nvimrc ${NVIM_DIR}/init.vim
+ln -nfs $DOTFILEPATH/nvimrc ${NVIM_DIR}/init.vim
 if [ ! -d ${NVIM_DIR}/rc ]; then
-  ln -s $DOTFILEPATH/rc ${NVIM_DIR}/rc
+  ln -nfs $DOTFILEPATH/rc ${NVIM_DIR}/rc
 fi
 if [ ! -d ${VIM_DIR}/rc ]; then
-  ln -s $DOTFILEPATH/rc ${VIM_DIR}/rc
+  ln -nfs $DOTFILEPATH/rc ${VIM_DIR}/rc
 fi
-ln -is $DOTFILEPATH/colors ${VIM_DIR}/colors
-ln -is $DOTFILEPATH/nvimrc $HOME/.vimrc
-ln -is $DOTFILEPATH/bin $HOME/bin
-ln -is $HOME/dotf/ftplugin ${NVIM_DIR}/after/ftplugin
-ln -is $HOME/dotf/ftplugin ${VIM_DIR}/after/ftplugin
+ln -nfs $DOTFILEPATH/colors ${VIM_DIR}/colors
+ln -nfs $DOTFILEPATH/nvimrc $HOME/.vimrc
+ln -nfs $DOTFILEPATH/bin $HOME/bin
+ln -nfs $HOME/dotf/ftplugin ${NVIM_DIR}/after/ftplugin
+ln -nfs $HOME/dotf/ftplugin ${VIM_DIR}/after/ftplugin
