@@ -10,8 +10,8 @@ set smarttab         "行頭余白内で<TAB>を打ち込むと'shiftwidth'の�
 
 set list             "不可視文字を可視化
 " タブと行の続きを可視化
-hi SpecialKey ctermfg=darkmagenta
-set listchars=extends:<,tab:>+
+" hi SpecialKey ctermfg=darkmagenta
+" set listchars=extends:<,tab:>+
 
 set number           "行番号を表示
 set ruler            "カーソル位置を表示

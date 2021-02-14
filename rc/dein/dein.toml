@@ -37,3 +37,7 @@ hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
 [[plugins]]
 repo      = 'kien/rainbow_parentheses.vim'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'
+
+[[plugins]]
+repo      = 'nathanaelkane/vim-indent-guides'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-indent-guides.vim'
