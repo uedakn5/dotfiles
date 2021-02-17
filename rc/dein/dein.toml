@@ -45,3 +45,7 @@ hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'
 [[plugins]]
 repo      = 'nathanaelkane/vim-indent-guides'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-indent-guides.vim'
+
+[[plugins]]
+repo      = 'junegunn/vim-easy-align'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-easy-align.vim'
