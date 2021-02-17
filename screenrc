@@ -25,6 +25,7 @@ bind w  windowlist -b
 bind ^W windowlist -b -m
 bind r eval 'command -c cresize' 'echo "Resize Mode Running..."'
 bind R eval 'source $HOME/.screenrc' 'echo ".screenrc reloaded!"'
+bind ^c stuff "screen -X chdir \$PWD;screen^M"
 bind -c cresize j eval 'resize +1'  'command -c cresize'
 bind -c cresize k eval 'resize -1'  'command -c cresize'
 bind -c cresize J eval 'resize +10' 'command -c cresize'
