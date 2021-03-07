@@ -13,3 +13,6 @@ if &term == "screen"
   set title
 endif
 autocmd VimEnter,TabEnter,WinEnter,BufReadPost,FileReadPost,BufNewFile * let &titlestring = 'vim(' . expand("%:t") . ')'
+
+autocmd BufNewFile,BufRead *.php setfiletype php
+autocmd BufNewFile,BufRead *.js setfiletype javascript
