@@ -1,6 +1,8 @@
 set encoding=utf-8
 scriptencoding utf-8
 colorscheme landscape
+" colorscheme spacecamp
+" colorscheme gruvbox
 
 " Comment out on PRODUCTION env.
 let s:is_development = 0
@@ -15,5 +17,5 @@ if get(s:, 'is_development', 0)
 	runtime! rc/dein/*.vim
 endif
 
-syntax on
 filetype plugin indent on
+syntax enable
