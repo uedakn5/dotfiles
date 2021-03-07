@@ -3,6 +3,19 @@
 repo      = 'Shougo/dein.vim'
 
 [[plugins]]
+repo      = 'Shougo/vimproc.vim'
+build     = 'make'
+
+[[plugins]]
+repo      = 'Shougo/neocomplcache.vim'
+build     = 'make'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-neocomplcache.vim'
+
+[[plugins]]
+repo      = 'Shougo/neosnippet.vim'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-neosnippet.vim'
+
+[[plugins]]
 repo      = 'Shougo/neosnippet-snippets'
 
 [[plugins]]

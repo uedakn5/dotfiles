@@ -1,3 +1,16 @@
 [[plugins]]
-repo        = 'cespare/vim-toml'
-on_ft       = 'toml'
+repo      = 'cespare/vim-toml'
+on_ft     = 'toml'
+
+[[plugins]]
+repo      = 'stanangeloff/php.vim'
+on_ft     = 'php'
+
+#[[plugins]]
+#repo      = 'rayburgemeestre/phpfolding.vim'
+#on_ft     = 'php'
+#hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-phpfolding.vim'
+
+[[plugins]]
+repo      = 'pangloss/vim-javascript'
+on_ft     = 'js'
