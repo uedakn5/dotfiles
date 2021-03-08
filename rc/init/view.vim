@@ -59,3 +59,4 @@ set t_vb=
 set guicursor=
 set t_Co=256
 set t_ut=
+syn sync minlines=100 "起動時の描画が遅いので追加
