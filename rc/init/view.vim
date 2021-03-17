@@ -1,4 +1,7 @@
 set lazyredraw       "スクロール速度
+"set synmaxcol=200
+set ttyfast
+set nofoldenable
 
 set tabstop=2        "読み込み時の<TAB>サイズ
 set softtabstop=2    "入力時の<TAB>サイズ
