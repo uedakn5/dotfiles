@@ -2,9 +2,9 @@
 repo      = 'cespare/vim-toml'
 on_ft     = 'toml'
 
-[[plugins]]
-repo      = 'stanangeloff/php.vim'
-on_ft     = 'php'
+#[[plugins]]
+#repo      = 'stanangeloff/php.vim'
+#on_ft     = 'php'
 
 #[[plugins]]
 #repo      = 'rayburgemeestre/phpfolding.vim'
