@@ -42,6 +42,9 @@ repo      = 'tpope/vim-fugitive'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-fugitive.vim'
 
 [[plugins]]
+repo      = 'tpope/vim-git'
+
+[[plugins]]
 repo      = 'ryanoasis/vim-devicons'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-devicons.vim'
 
