@@ -11,7 +11,7 @@ set autoindent       "インデントを自動で補完
 set smartindent      "末尾に応じてインデントの増減
 set smarttab         "行頭余白内で<TAB>を打ち込むと'shiftwidth'の数だけインデント
 
-set list             "不可視文字を可視化
+set nolist             "不可視文字
 " タブと行の続きを可視化
 " hi SpecialKey ctermfg=darkmagenta
 " set listchars=extends:<,tab:>+
