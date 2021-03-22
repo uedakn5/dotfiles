@@ -1,1 +1,2 @@
-set ut 100
+set ut=100
+nnoremap <C-l> <C-l>:GitGutterAll<CR>

@@ -35,6 +35,7 @@ hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-nerdtree-git-plugin.vim'
 
 [[plugins]]
 repo      = 'airblade/vim-gitgutter'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-gitgutter.vim'
 
 [[plugins]]
 repo      = 'tpope/vim-fugitive'
