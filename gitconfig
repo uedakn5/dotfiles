@@ -1,10 +1,14 @@
 [alias]
+	a = add
+	ap = add -p
+	au = add -u
 	adp = add -p
 	adu = add -u
 	adup = add -u -p
 	adpu = add -u -p
 	amend = commit --amend
 	forcepush = push --force
+	drypush = push -n
 	puss = push -n
 	b = branch
 	br = for-each-ref --sort=committerdate refs/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
@@ -12,16 +16,21 @@
 	bnn = rev-parse --abbrev-ref HEAD
 	cancel = reset --soft HEAD^
 	unstage = reset -p --
+	d = diff
 	df = diff
+	dc = diff --cached
 	dfc = diff --cached
 	dff = diff --name-only
+	dw = --word-diff
 	dfw = diff --word-diff
+	s = status
 	ss = status
 	sss = status -uno
 	cp = cherry-pick
 	cm = commit
 	cmm = commit -m
 	co = checkout
+	cb = checkout -b
 	cob = checkout -b
 	graph = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
 	gr = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
