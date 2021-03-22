@@ -28,5 +28,7 @@
 	al = config --get-regexp alias.*
 	today = gr --oneline --since='12 hour ago'
 	rev = remote -v
+[core]
+	editor = vim
 [include]
 	path = .gitconfig.work
