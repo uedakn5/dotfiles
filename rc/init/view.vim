@@ -57,6 +57,10 @@ set browsedir=buffer
 
 autocmd ColorScheme * highlight Structure ctermfg=205 guifg=#008800
 
+autocmd ColorScheme * highlight NormalNC ctermfg=251 ctermbg=17 guifg=#a0a0a0 guibg=#121212
+autocmd WinEnter,BufWinEnter * setlocal wincolor=
+autocmd WinLeave * setlocal wincolor=NormalNC
+
 set vb
 set t_vb=
 set guicursor=
