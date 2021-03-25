@@ -10,6 +10,7 @@
 	forcepush = push --force
 	drypush = push -n
 	puss = push -n
+	poh = push origin HEAD
 	b = branch
 	br = for-each-ref --sort=committerdate refs/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 	bg = log --graph --simplify-by-decoration --pretty=format:'%d' --all
