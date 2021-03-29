@@ -28,6 +28,7 @@
 	ss = status
 	sss = status -uno
 	cp = cherry-pick
+	cpn = cherry-pick -n
 	cm = commit
 	cmm = commit -m
 	co = checkout
