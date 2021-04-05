@@ -71,5 +71,9 @@ repo      = 'junegunn/vim-easy-align'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-easy-align.vim'
 
 [[plugins]]
+repo      = 'valloric/MatchTagAlways'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-matchtagalways.vim'
+
+[[plugins]]
 repo      = 'myusuf3/numbers.vim'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-numbers.vim'
