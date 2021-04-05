@@ -69,3 +69,7 @@ repo      = 'bronson/vim-trailing-whitespace'
 [[plugins]]
 repo      = 'junegunn/vim-easy-align'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-easy-align.vim'
+
+[[plugins]]
+repo      = 'myusuf3/numbers.vim'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-numbers.vim'
