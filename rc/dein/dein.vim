@@ -26,9 +26,11 @@ if dein#load_state(s:dein_dir)
   let g:toml_dir    = s:vim_root_dir . '/rc/dein'
   let s:toml      = g:toml_dir . '/dein.toml'
   let s:lazy_toml = g:toml_dir . '/dein_lazy.toml'
+  let s:color_toml = g:toml_dir . '/dein_color.toml'
 
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  call dein#load_toml(s:color_toml, {'lazy': 1})
 
   call dein#end()
   call dein#save_state()
