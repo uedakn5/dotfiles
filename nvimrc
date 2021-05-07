@@ -26,6 +26,8 @@ call RuntimeAll(s:dir_init, s:dotfiles_root_dir)
 
 if get(s:, 'is_development', 0)
 	call RuntimeAll(s:dir_dein, s:dotfiles_root_dir)
+else
+	colorscheme gruvbox
 endif
 
 filetype plugin indent on
