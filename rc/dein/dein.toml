@@ -51,9 +51,16 @@ hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-devicons.vim'
 [[plugins]]
 repo      = 'tiagofumo/vim-nerdtree-syntax-highlight'
 
+#[[plugins]]
+#repo      = 'itchyny/lightline.vim'
+#hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
+
 [[plugins]]
-repo      = 'itchyny/lightline.vim'
-hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
+repo      = 'vim-airline/vim-airline'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-airline.vim'
+
+[[plugins]]
+repo      = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo      = 'kien/rainbow_parentheses.vim'
