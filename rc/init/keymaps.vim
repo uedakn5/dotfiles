@@ -22,7 +22,7 @@ nnoremap Q <Nop>
 nnoremap <Space>/ *
 noremap ; :
 noremap : ;
-noremap <Space>t :tabnew
+noremap <Space>t :tabnew 
 
 if exists(':tnoremap')
   tnoremap <ESC> <C-\><C-n>
