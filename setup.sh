@@ -29,3 +29,5 @@ ln -nfs $DOTFILEPATH/nvimrc $HOME/.vimrc
 ln -nfs $DOTFILEPATH/bin $HOME/bin
 ln -nfs $DOTFILEPATH/ftplugin ${NVIM_DIR}/after/ftplugin
 ln -nfs $DOTFILEPATH/ftplugin ${VIM_DIR}/after/ftplugin
+ln -nfs $DOTFILEPATH/plugin ${NVIM_DIR}/after/plugin
+ln -nfs $DOTFILEPATH/plugin ${VIM_DIR}/after/plugin
