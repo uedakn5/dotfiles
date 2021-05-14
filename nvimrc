@@ -14,7 +14,7 @@ let s:dir_init = s:dir_rc . '/init'
 let s:dir_dein = s:dir_rc . '/dein'
 
 " Comment out on PRODUCTION env.
-let s:is_development = 0
+let g:is_development = 0
 
 if &compatible | set nocompatible | endif
 language message C
@@ -23,7 +23,7 @@ filetype plugin indent off
 
 call RuntimeAll(s:dir_init, s:dotfiles_root_dir)
 
-if get(s:, 'is_development', 0)
+if get(g:, 'is_development', 0)
 	call RuntimeAll(s:dir_dein, s:dotfiles_root_dir)
 else
 	colorscheme gruvbox
