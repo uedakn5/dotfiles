@@ -20,7 +20,6 @@ if &compatible | set nocompatible | endif
 language message C
 
 filetype plugin indent off
-syntax enable
 
 call RuntimeAll(s:dir_init, s:dotfiles_root_dir)
 
@@ -31,3 +30,4 @@ else
 endif
 
 filetype plugin indent on
+syntax enable
