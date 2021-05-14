@@ -43,7 +43,7 @@ set cmdheight=1
 set laststatus=2
 set statusline=[%n]
 set statusline+=%<%F\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-set notitle 
+set notitle
 set nowildmenu
 set wildmode=longest,list
 set wildignore=*.o,*.obj,*.pyc,*.so,*.dll
