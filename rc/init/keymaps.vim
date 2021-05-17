@@ -3,11 +3,11 @@ let g:mapleader = ","
 "nnoremap m <Nop>
 nnoremap , <Nop>
 
-inoremap <C-j> <esc>
+inoremap <C-j> <esc> 
 inoremap <C-f> <tab>
 noremap <Space>h ^
 noremap <Space>l $
-nnoremap <esc><esc> :noh<Cr>
+nnoremap <esc><esc> :noh<Cr> 
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
@@ -22,7 +22,7 @@ nnoremap Q <Nop>
 nnoremap <Space>/ *
 noremap ; :
 noremap : ;
-noremap <Space>t :tabnew
+noremap <Space>t :tabnew 
 
 if exists(':tnoremap')
   tnoremap <ESC> <C-\><C-n>
