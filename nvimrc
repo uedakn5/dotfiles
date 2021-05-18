@@ -1,5 +1,30 @@
-set encoding=utf-8
-scriptencoding utf-8
+if 0 | endif
+if &enc !=? 'utf-8' | let &tenc = &enc | set enc=utf-8 | endif
+scripte utf-8
+if &cp | set nocp | endif
+
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+\ && (has('mac') || has('macunix') || has('gui_mac')
+\ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
+
+if s:is_windows
+	language messages ja_JP
+elseif s:is_mac
+	language messages C | language time C
+else
+	language messages C
+endif
+
+set hlg& hlg=ja,en
+set shm& shm=atToOI
+if has('guess_encode')
+	set fencs=ucs-bom,utf-8,iso-2022-jp,guess,euc-jp,cp932,latin1
+else
+	set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,latin1
+endif
+set ffs=unix,dos
 
 " Load all files in a:dir_target_relative_path on a:dir_root_abs_path
 function! RuntimeAll(dir_target_relative_path, dir_root_abs_path) abort
@@ -15,9 +40,6 @@ let s:dir_dein = s:dir_rc . '/dein'
 
 " Comment out on PRODUCTION env.
 let g:is_development = 0
-
-if &compatible | set nocompatible | endif
-language message C
 
 filetype plugin indent off
 
