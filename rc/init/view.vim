@@ -1,5 +1,4 @@
 set lazyredraw       "スクロール速度
-"set synmaxcol=200
 set ttyfast
 set nofoldenable
 
@@ -10,11 +9,7 @@ set shiftwidth=2     "自動インデントサイズ
 set autoindent       "インデントを自動で補完
 set smartindent      "末尾に応じてインデントの増減
 set smarttab         "行頭余白内で<TAB>を打ち込むと'shiftwidth'の数だけインデント
-
 set nolist             "不可視文字
-" タブと行の続きを可視化
-" hi SpecialKey ctermfg=darkmagenta
-" set listchars=extends:<,tab:>+
 
 set number           "行番号を表示
 set ruler            "カーソル位置を表示
@@ -43,7 +38,7 @@ set cmdheight=1
 set laststatus=2
 set statusline=[%n]
 set statusline+=%<%F\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-set notitle 
+set notitle
 set nowildmenu
 set wildmode=longest,list
 set wildignore=*.o,*.obj,*.pyc,*.so,*.dll
