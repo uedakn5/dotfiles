@@ -1,33 +1,57 @@
-let g:lightline = { 'colorscheme': 'materia',
-        \ 'mode_map': {'c': 'NORMAL'},
-        \ 'active': {
-        \   'left': [
-        \     ['mode', 'paste'],
-        \     ['readonly', 'filename'],
-        \     ['fugitive', 'gitgutter'],
-        \   ],
-        \   'right': [
-        \     ['fileformat', 'fileencoding', 'filetype'],
-        \     ['lineinfo', 'percent'],
-        \   ]
-        \ },
-        \ 'component_function': {
-        \   'modified': 'MyModified',
-        \   'readonly': 'MyReadonly',
-        \   'fugitive': 'MyFugitive',
-        \   'filename': 'MyFilename',
-        \   'fileformat': 'MyFileformat',
-        \   'filetype': 'MyFiletype',
-        \   'fileencoding': 'MyFileencoding',
-        \   'mode': 'MyMode',
-        \   'syntastic': 'SyntasticStatuslineFlag',
-        \   'charcode': 'MyCharCode',
-        \   'gitgutter': 'MyGitGutter',
-        \ },
-        \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-        \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-        \ }
+set nosmd
+set stal=2
 
+let g:lightline = {}
+let g:lightline.colorscheme = 'molokai'
+let g:lightline.mode_map = {'c': 'NORMAL'}
+let g:lightline.active = {
+				\   'left': [
+				\     ['mode', 'paste'],
+				\     ['readonly', 'filename'],
+				\     ['fugitive', 'gitgutter'],
+				\   ],
+				\   'right': [
+				\     ['fileformat', 'fileencoding', 'filetype'],
+				\     ['lineinfo', 'percent'],
+				\			['whitespace'],
+				\   ]
+				\}
+let g:lightline.tabline = {
+				\	 'left': [['tabs']],
+				\  'right': [],
+				\}
+
+let g:lightline.component_function = {
+				\  'modified': 'MyModified',
+				\  'readonly': 'MyReadonly',
+				\  'fugitive': 'MyFugitive',
+				\  'filename': 'MyFilename',
+				\  'fileformat': 'MyFileformat',
+				\  'filetype': 'MyFiletype',
+				\  'fileencoding': 'MyFileencoding',
+				\  'mode': 'MyMode',
+				\  'syntastic': 'SyntasticStatuslineFlag',
+				\  'charcode': 'MyCharCode',
+				\  'gitgutter': 'MyGitGutter',
+				\}
+
+let g:lightline.component_expand = {
+				\	 'whitespace': 'lightline#whitespace#check'
+				\}
+
+let g:lightline.component_type = {
+				\  'whitespace': 'warning'
+				\}
+
+let g:lightline.separator = {
+				\  'left': "\ue0b0",
+				\  'right': "\ue0b2",
+				\}
+
+let g:lightline.subseparator = {
+        \  'left': "\ue0b1",
+				\  'right': "\ue0b3" ,
+				\}
 
 function! MyModified()
   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
@@ -129,5 +153,3 @@ function! MyCharCode()
 
   return "'". char ."' ". nr
 endfunction
-
-set noshowmode
