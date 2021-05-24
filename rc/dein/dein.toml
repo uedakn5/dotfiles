@@ -18,7 +18,7 @@ hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-neosnippet.vim'
 repo      = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
-repo      = 'tpope/vim-surround'
+repo      = 'machakann/vim-sandwich'
 
 [[plugins]]
 repo      = 'easymotion/vim-easymotion'
@@ -92,3 +92,15 @@ repo      = 'deponian/vim-lightline-whitespace'
 [[plugins]]
 repo      = 'itchyny/lightline.vim'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
+
+[[plugins]]
+repo      = 'yuttie/comfortable-motion.vim'
+
+[[plugins]]
+repo      = 'rbtnn/vim-game_engine'
+
+[[plugins]]
+repo      = 'rbtnn/puyo.vim'
+
+[[plugins]]
+repo      = 'johngrib/vim-game-code-break'
