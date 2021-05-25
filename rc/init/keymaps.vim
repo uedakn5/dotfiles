@@ -23,6 +23,7 @@ nnoremap <Space>/ *
 noremap ; :
 noremap : ;
 noremap <Space>t :tabnew 
+nnoremap Y y$
 
 if exists(':tnoremap')
   tnoremap <ESC> <C-\><C-n>

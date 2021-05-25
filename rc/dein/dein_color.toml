@@ -1,4 +1,7 @@
 [[plugins]]
+repo      = 'trapd00r/neverland-vim-theme'
+
+[[plugins]]
 repo      = 'itchyny/landscape.vim'
 hook_add  = '''
 	set background=dark
