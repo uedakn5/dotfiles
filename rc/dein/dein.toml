@@ -93,8 +93,8 @@ repo      = 'deponian/vim-lightline-whitespace'
 repo      = 'itchyny/lightline.vim'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-lightline.vim'
 
-[[plugins]]
-repo      = 'yuttie/comfortable-motion.vim'
+#[[plugins]]
+#repo      = 'yuttie/comfortable-motion.vim'
 
 [[plugins]]
 repo      = 'rbtnn/vim-game_engine'
