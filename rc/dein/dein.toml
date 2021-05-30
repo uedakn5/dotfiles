@@ -105,5 +105,5 @@ repo      = 'rbtnn/puyo.vim'
 [[plugins]]
 repo      = 'johngrib/vim-game-code-break'
 
-[[plugins]]
-repo      = 'sheerun/vim-polyglot'
+#[[plugins]]
+#repo      = 'sheerun/vim-polyglot'
