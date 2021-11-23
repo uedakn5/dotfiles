@@ -21,6 +21,7 @@ autodetach on
 nethack on
 shelltitle '$ |bash'
 setenv SSH_AUTH_SOCK $HOME/.ssh/.ssh-auth-sock
+bind d eval 'echo "Now detach is disabled."'
 bind ^G eval 'echo "get back to an ordinary life."'
 bind w  windowlist -b
 bind ^W windowlist -b -m
