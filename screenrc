@@ -41,7 +41,8 @@ logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n"
 hardcopydir 'screen/hardcopy'
 hardcopy_append on
 bufferfile 'screen/screen-exchange'
-hardstatus alwayslastline '%?%h%:#%n %{= dR}%t%{= .d} @%H%? %= %{= .W}LOADAVG [%{= .B}%l%{= .W}] %{= .R}%Y-%m-%d %02c:%s'
+backtick 1 19 19 $HOME/dotfiles/bin/get_freemem
+hardstatus alwayslastline '%?%h%:#%n %{= dR}%t%{= .d} @%H%? %= %{=b C}[%1`] %{= .W}[LOADAVG: %{= .B}%l%{= .W}] %{= .R}%Y-%m-%d %02c:%s'
 hardstatus off
 caption always '%{=r dd}%-Lw%40L>%?%F%{+b kG}%:[%{=r dd}%? %n%f %t %?%F%{-}%:]%?%?%F%{+b G.}%{-}%?%+Lw'
 sorendition '+rb .R'
