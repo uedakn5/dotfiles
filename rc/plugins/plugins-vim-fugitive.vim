@@ -1,1 +1,1 @@
-command GG Gblame
+command GG Git blame
