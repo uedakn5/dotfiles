@@ -53,9 +53,9 @@ repo      = 'tiagofumo/vim-nerdtree-syntax-highlight'
 [[plugins]]
 repo      = 'bronson/vim-trailing-whitespace'
 
-[[plugins]]
-repo      = 'kien/rainbow_parentheses.vim'
-hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'
+#[[plugins]]
+#repo      = 'kien/rainbow_parentheses.vim'
+#hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'
 
 [[plugins]]
 repo      = 'nathanaelkane/vim-indent-guides'
