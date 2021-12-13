@@ -58,6 +58,10 @@ repo      = 'bronson/vim-trailing-whitespace'
 #hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow_parentheses.vim'
 
 [[plugins]]
+repo      = 'luochen1990/rainbow'
+hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-rainbow.vim'
+
+[[plugins]]
 repo      = 'nathanaelkane/vim-indent-guides'
 hook_add  = 'source ~/.config/nvim/rc/plugins/plugins-vim-indent-guides.vim'
 
