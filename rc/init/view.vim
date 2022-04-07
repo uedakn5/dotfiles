@@ -39,6 +39,14 @@ if has('syntax')
 	call ZenkakuSpace()
 endif
 
+" sqlはmysqlとして扱う
+augroup SQLasMySQL
+	autocmd!
+augroup END
+autocmd SQLasMySQL BufNewFile,BufRead *.sql
+\ setlocal filetype=mysql
+
+
 " ステータスライン関連 {{{
 set cmdheight=1
 set laststatus=2
