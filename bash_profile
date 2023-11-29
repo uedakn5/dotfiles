@@ -10,5 +10,3 @@ fi
 if [ "$(id -u)" -ne 0 ]; then
 	PATH=$PATH:$HOME/.local/bin:$HOME/bin
 fi
-
-export PATH
