@@ -44,6 +44,6 @@ bufferfile 'screen/screen-exchange'
 backtick 1 19 19 $HOME/dotfiles/bin/get_freemem
 hardstatus alwayslastline '%?%h%:#%n %{= dR}%t%{= .d} @%H%? %= %{=b C}[%1`] %{= .W}[LOADAVG: %{= .B}%l%{= .W}] %{= .R}%Y-%m-%d %02c:%s'
 hardstatus off
-caption always '%{=r dd}%-Lw%40L>%?%F%{+b kG}%:[%{=r dd}%? %n%f %t %?%F%{-}%:]%?%?%F%{+b G.}%{-}%?%+Lw'
+caption always '%{=r dd}%-Lw%40L>%?%F%{+b kG}%:[%{=r dd}%? %n%f %t %?%F%{-}%:]%?%?%F%{+b G.}%{-}%?%+Lw'
 sorendition '+rb .R'
 chdir
