@@ -35,8 +35,10 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 -- keymaps.vim
-vim.g.mapleader = ","  -- Ορισμός του leader ως κόμμα
 vim.api.nvim_set_keymap('n', ',', '<Nop>', { noremap = true, silent = true })
+vim.g.mapleader = ","  -- Ορισμός του leader ως κόμμα
+vim.g.maplocalleader = ","  -- Ορισμός του leader ως κόμμα
+
 vim.api.nvim_set_keymap('i', '<C-j>', '<esc>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<C-f>', '<tab>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Space>h', '^', { noremap = true })
@@ -56,7 +58,7 @@ vim.api.nvim_set_keymap('n', 'Q', '<Nop>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<Space>/', '* ', { noremap = true })
 vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
 vim.api.nvim_set_keymap('n', ':', ';', { noremap = true })
-vim.api.nvim_set_keymap('n', '<Space>t', ':tabnew', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Space>t', ':tabnew ', { noremap = true })
 
 -- Επιστροφή στην λειτουργία επεξεργασίας (insert) ανάλογα με το περιβάλλον
 if vim.fn.exists(':tnoremap') then
@@ -184,6 +186,7 @@ if vim.bo.filetype ~= 'man' or vim.bo.filetype ~= 'help' then
 end
 ]]
 
+--vim.opt.termguicolors = true
 vim.opt.cmdheight = 1 -- ステータスライン関連
 vim.opt.laststatus = 2
 vim.o.statusline = "[%n]"
@@ -259,9 +262,239 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	"tpope/vim-fugitive",
+	{
+		"tpope/vim-fugitive",
+		config = function()
+			vim.cmd([[command! GG Git blame]])
+		end,
+	},
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.5',
+		dependencies = {
+			{'nvim-lua/plenary.nvim'},
+		},
+		config = function()
+			local builtin = require('telescope.builtin')
+			--vim.keymap.set('n', '<Space>ff', builtin.find_files, {})
+			--vim.keymap.set('n', '<Space>fg', builtin.live_grep, {})
+			vim.api.nvim_set_keymap('n', '<Space>ff', [[<Cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>]], { noremap = true, silent = true })
+			--vim.api.nvim_set_keymap('n', '<Space>fg', [[<Cmd>lua require('telescope.builtin').live_grep({ cwd = vim.fn.expand('%:p:h') })<CR>]], { noremap = true, silent = true })
+			vim.keymap.set('n', '<Space>fb', builtin.buffers, {})
+			vim.keymap.set('n', '<Space>fh', builtin.help_tags, {})
+		end,
+	},
 	"tpope/vim-repeat",
 	"nvim-tree/nvim-web-devicons",
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {},
+		config = function()
+			local highlight = {
+				"RainbowRed",
+				"RainbowYellow",
+				"RainbowBlue",
+				"RainbowOrange",
+				"RainbowGreen",
+				"RainbowViolet",
+				"RainbowCyan",
+			}
+
+			local hooks = require "ibl.hooks"
+			-- create the highlight groups in the highlight setup hook, so they are reset
+			-- every time the colorscheme changes
+			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+			end)
+
+			require("ibl").setup { indent = { highlight = highlight } }
+		end,
+	},
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate",
+		opts = {},
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			{'neovim/nvim-lspconfig'},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'hrsh7th/cmp-buffer'},
+			{'hrsh7th/cmp-path'},
+			{'hrsh7th/cmp-cmdline'},
+		},
+		config = function()
+			local cmp = require'cmp'
+			cmp.setup({
+				snippet = {
+					-- REQUIRED - you must specify a snippet engine
+					expand = function(args)
+						vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+						-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+					end,
+				},
+				window = {
+					-- completion = cmp.config.window.bordered(),
+					-- documentation = cmp.config.window.bordered(),
+				},
+				mapping = {
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_jumpable() then
+							luasnip.expand_or_jump()
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+					['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+					['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+					['<C-y>'] = cmp.config.disable,
+					['<C-e>'] = cmp.mapping({
+						i = cmp.mapping.abort(),
+						c = cmp.mapping.close(),
+					}),
+					['<CR>'] = cmp.mapping.confirm({ select = true }),
+				},
+				sources = cmp.config.sources({
+					{ name = 'nvim_lsp' },
+					{ name = 'vsnip' }, -- For vsnip users.
+					-- { name = 'luasnip' }, -- For luasnip users.
+					-- { name = 'ultisnips' }, -- For ultisnips users.
+					-- { name = 'snippy' }, -- For snippy users.
+				}, {
+					{ name = 'buffer' },
+				})
+			})
+
+			-- Set configuration for specific filetype.
+			cmp.setup.filetype('gitcommit', {
+				sources = cmp.config.sources({
+					{ name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+				}, {
+					{ name = 'buffer' },
+				})
+			})
+
+			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline({ '/', '?' }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = 'buffer' }
+				}
+			})
+
+			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline(':', {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = 'path' }
+				}, {
+					{ name = 'cmdline' }
+				})
+			})
+
+			-- Set up lspconfig.
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+			require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+				capabilities = capabilities
+			}
+		end,
+	},
+	{
+		-- Adds git releated signs to the gutter, as well as utilities for managing changes
+		'lewis6991/gitsigns.nvim',
+		opts = {
+			-- See `:help gitsigns.txt`
+			signs = {
+				add = { text = '+' },
+				change = { text = '~' },
+				delete = { text = '_' },
+				topdelete = { text = '‾' },
+				changedelete = { text = '~' },
+			},
+			on_attach = function(bufnr)
+				vim.keymap.set('n', 'g[', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+				vim.keymap.set('n', 'g]', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+				--vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+			end,
+		},
+	},
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
+	{
+		'nvim-treesitter/nvim-treesitter',
+		build = ":TSUpdate",
+		config = function()
+			local configs = require("nvim-treesitter.configs")
+			configs.setup {
+				ensure_installed = {"vimdoc", "vim","dockerfile","fish","typescript","tsx","javascript","json","lua","gitignore","bash","astro","markdown","css","scss","yaml","toml","vue","php","html"},
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+					disable = {},
+				},
+				indent = {
+					enable = false,
+					disable ={"html"},
+				},
+				autotag = {
+					enable = true,
+				},
+			}
+		end,
+	},
+	{
+		'phaazon/hop.nvim',
+		branch = 'v2',
+		config = function()
+			local hop = require('hop')
+			hop.setup { keys = 'etovxqpdygfblzhckisuran' }
+			vim.keymap.set('n', 'zw', ':HopWord<CR>', { silent = true })
+			vim.keymap.set('n', 'zl', ':HopLine<CR>', { silent = true })
+			vim.keymap.set('n', 'zz', ':HopChar1<CR>', { silent = true })
+			vim.keymap.set('n', 'zx', ':HopChar2<CR>', { silent = true })
+		end,
+	},
+	{
+		'akinsho/bufferline.nvim',
+		version = '*',
+		dependencies = {
+			'nvim-tree/nvim-web-devicons',
+			config = 'require("bufferline").setup{}'
+		},
+	},
 	{
 		"sainnhe/everforest",
 		lazy = false,
@@ -270,10 +503,6 @@ require("lazy").setup({
 			vim.g.everforest_background = 'hard'
 			vim.cmd([[colorscheme everforest]])
 		end,
-	},
-	{
-		'romgrk/barbar.nvim',
-		dependencies = {'nvim-web-devicons'},
 	},
 	{
 		'nvim-lualine/lualine.nvim',
