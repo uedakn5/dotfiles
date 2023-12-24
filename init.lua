@@ -305,22 +305,17 @@ require("lazy").setup({
 			-- create the highlight groups in the highlight setup hook, so they are reset
 			-- every time the colorscheme changes
 			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75", ctermfg = 203 })
+				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B", ctermfg = 227 })
+				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF", ctermfg = 111 })
+				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66", ctermfg = 208 })
+				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379", ctermfg = 113 })
+				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD", ctermfg = 99 })
+				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2", ctermfg = 39 })
 			end)
 
 			require("ibl").setup { indent = { highlight = highlight } }
 		end,
-	},
-	{
-		"williamboman/mason.nvim",
-		build = ":MasonUpdate",
-		opts = {},
 	},
 	{
 		"hrsh7th/nvim-cmp",
@@ -351,10 +346,10 @@ require("lazy").setup({
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						elseif has_words_before() then
-							cmp.complete()
+						--elseif luasnip.expand_or_jumpable() then
+						--	luasnip.expand_or_jump()
+						--elseif has_words_before() then
+						--	cmp.complete()
 						else
 							fallback()
 						end
@@ -362,8 +357,8 @@ require("lazy").setup({
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
+						--elseif luasnip.jumpable(-1) then
+						--	luasnip.jump(-1)
 						else
 							fallback()
 						end
@@ -419,9 +414,9 @@ require("lazy").setup({
 			-- Set up lspconfig.
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-			require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
-				capabilities = capabilities
-			}
+			--require('lspconfig')['phpactor'].setup {
+				--capabilities = capabilities
+			--}
 		end,
 	},
 	{
@@ -504,11 +499,93 @@ require("lazy").setup({
 			vim.cmd([[colorscheme everforest]])
 		end,
 	},
+	"sainnhe/edge",
+	{
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-web-devicons', opt = true },
+		options = {
+			theme = 'everforest',
+		},
+		config = 'require("lualine").setup()'
+	},
+	{
+		'stevearc/aerial.nvim',
+		opts = {},
+		-- Optional dependencies
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons"
+		},
+		config = function()
+			require("aerial").setup({
+				layout = {
+					placement = "edge",
+				},
+				backends = {"lsp", "treesitter"},
+				highlight_on_hover = false,
+				filter_kind = {
+					"Class",
+					"Constructor",
+					"Enum",
+					"Function",
+					"Interface",
+					"Module",
+					"Method",
+					"Struct",
+				},
+				nerd_font = "auto",
+				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
+				on_attach = function(bufnr)
+					-- Jump forwards/backwards with '{' and '}'
+					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+				end,
+			})
+			-- You probably also want to set a keymap to toggle aerial
+			vim.keymap.set("n", "<Space>a", "<cmd>AerialToggle!<CR>")
+		end,
+	},
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-web-devicons', opt = true },
 		options = { theme = 'everforest' },
 		config = 'require("lualine").setup()'
 	},
+	{
+		'stevearc/aerial.nvim',
+		opts = {},
+		-- Optional dependencies
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons"
+		},
+		config = function()
+			require("aerial").setup({
+				layout = {
+					placement = "edge",
+				},
+				backends = {"lsp", "treesitter"},
+				highlight_on_hover = false,
+				filter_kind = {
+					"Class",
+					"Constructor",
+					"Enum",
+					"Function",
+					"Interface",
+					"Module",
+					"Method",
+					"Struct",
+				},
+				nerd_font = "auto",
+				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
+				on_attach = function(bufnr)
+					-- Jump forwards/backwards with '{' and '}'
+					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+				end,
+			})
+			-- You probably also want to set a keymap to toggle aerial
+			vim.keymap.set("n", "<Space>a", "<cmd>AerialToggle!<CR>")
+		end,
+	},
 })
-
