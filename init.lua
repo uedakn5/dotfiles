@@ -290,6 +290,8 @@ require("lazy").setup({
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {},
+	},
+	--[[
 		config = function()
 			local highlight = {
 				"RainbowRed",
@@ -317,6 +319,7 @@ require("lazy").setup({
 			require("ibl").setup { indent = { highlight = highlight } }
 		end,
 	},
+	]]
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -461,7 +464,7 @@ require("lazy").setup({
 					disable = {},
 				},
 				indent = {
-					enable = false,
+					enable = true,
 					disable ={"html"},
 				},
 				autotag = {
@@ -496,10 +499,23 @@ require("lazy").setup({
 		priority = 1000,
 		config = function()
 			vim.g.everforest_background = 'hard'
-			vim.cmd([[colorscheme everforest]])
+			--vim.cmd([[colorscheme everforest]])
 		end,
 	},
-	"sainnhe/edge",
+	"itchyny/landscape.vim",
+	{
+		"sainnhe/edge",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.g.edge_style = 'aura'
+			vim.g.edge_better_performance = 1
+			vim.cmd([[colorscheme edge]])
+		end,
+	},
+	{
+		"sainnhe/sonokai",
+	},
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-web-devicons', opt = true },
