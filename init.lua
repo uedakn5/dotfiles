@@ -457,7 +457,9 @@ require("lazy").setup({
 		config = function()
 			local configs = require("nvim-treesitter.configs")
 			configs.setup {
-				ensure_installed = {"vimdoc", "vim","dockerfile","fish","typescript","tsx","javascript","json","lua","gitignore","bash","astro","markdown","css","scss","yaml","toml","vue","php","html"},
+				ensure_installed = {
+					"vimdoc", "vim","dockerfile","fish","typescript","tsx","javascript","json","lua","gitignore","bash","astro","markdown","css","scss","yaml","toml","vue","php","html",
+				},
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = false,
@@ -493,13 +495,15 @@ require("lazy").setup({
 			config = 'require("bufferline").setup{}'
 		},
 	},
+	'mhartington/oceanic-next',
+	'hiphish/rainbow-delimiters.nvim',
 	{
 		"sainnhe/everforest",
 		lazy = false,
 		priority = 1000,
 		config = function()
 			vim.g.everforest_background = 'hard'
-			--vim.cmd([[colorscheme everforest]])
+			vim.cmd([[colorscheme everforest]])
 		end,
 	},
 	"itchyny/landscape.vim",
@@ -510,7 +514,7 @@ require("lazy").setup({
 		config = function()
 			vim.g.edge_style = 'aura'
 			vim.g.edge_better_performance = 1
-			vim.cmd([[colorscheme edge]])
+			--vim.cmd([[colorscheme edge]])
 		end,
 	},
 	{
