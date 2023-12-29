@@ -41,6 +41,11 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 	command = "set nopaste"
 })
 
+vim.g.markdown_fenced_languages = {
+  "ts=typescript",
+  "js=javascript",
+}
+
 -- keymaps.vim
 vim.api.nvim_set_keymap('n', ',', '<Nop>', { noremap = true, silent = true })
 vim.g.mapleader = ","  -- Ορισμός του leader ως κόμμα
@@ -179,6 +184,8 @@ vim.opt.smartindent = true -- 末尾に応じてインデントの増減
 vim.opt.smarttab = true -- 行頭余白内で <TAB> を打ち込むと 'shiftwidth' の数だけインデント
 vim.opt.list = false -- 不可視文字
 vim.opt.number = true -- 行番号を表示
+vim.opt.relativenumber = true -- 行番号を表示
+vim.opt.signcolumn = 'number'
 vim.opt.ruler = true -- カーソル位置を表示
 vim.opt.cursorline = true -- 現在行をハイライト
 vim.opt.background = "dark" -- 背景を暗く
@@ -334,6 +341,13 @@ neovim_plugins = {
 			'folke/neodev.nvim',
 		},
 		config = function()
+			vim.lsp.handlers["textDocument/publishDiagnostics"] =
+			vim.lsp.with(
+				vim.lsp.diagnostic.on_publish_diagnostics,
+				{
+					virtual_text = false,
+				}
+			)
 			local on_attach = function(_, bufnr)
 				local nmap = function(keys, func, desc)
 					if desc then
@@ -343,8 +357,8 @@ neovim_plugins = {
 					vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
 				end
 
-				-- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-				-- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+				nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+				nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
 				nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 				nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -372,7 +386,6 @@ neovim_plugins = {
 			require('neodev').setup()
 
 			local servers = {
-				-- rust_analyzer = {},
 			}
 
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -405,6 +418,7 @@ neovim_plugins = {
 		dependencies = {
 			{'hrsh7th/cmp-nvim-lsp'},
 			{'hrsh7th/cmp-buffer'},
+			{'hrsh7th/cmp-omni'},
 			{'hrsh7th/cmp-path'},
 			{'hrsh7th/cmp-cmdline'},
 		},
@@ -421,8 +435,8 @@ neovim_plugins = {
 					end,
 				},
 				window = {
-					-- completion = cmp.config.window.bordered(),
-					-- documentation = cmp.config.window.bordered(),
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
 				},
 				mapping = {
 					["<Tab>"] = cmp.mapping(function(fallback)
@@ -475,6 +489,25 @@ neovim_plugins = {
 				})
 			})
 
+			cmp.setup.filetype({'javascript'}, {
+				source = cmp.config.sources({
+					{
+						name = 'denols',
+					}
+				})
+			});
+
+			cmp.setup.filetype({'php'}, {
+				sources = cmp.config.sources({
+					{
+						name = 'omni',
+						keyword_length = 4,
+					}
+					}, {
+						{ name = 'buffer' },
+				})
+			})
+
 			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 			cmp.setup.cmdline({ '/', '?' }, {
 				mapping = cmp.mapping.preset.cmdline(),
@@ -496,9 +529,6 @@ neovim_plugins = {
 			-- Set up lspconfig.
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-			--require('lspconfig')['phpactor'].setup {
-			--capabilities = capabilities
-			--}
 		end,
 	},
 	{
