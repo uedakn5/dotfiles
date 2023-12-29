@@ -1,7 +1,7 @@
 vim.cmd("autocmd!")
 
 if vim.o.cp then
-  vim.o.nocp = true
+	vim.o.nocp = true
 end
 
 vim.cmd([[language messages C]])
@@ -10,9 +10,9 @@ vim.cmd([[set hlg& hlg=ja,en]])
 vim.cmd([[set shm& shm=atToOI]])
 
 if vim.fn.has('guess_encode') then
-  vim.opt.fileencodings = 'ucs-bom,utf-8,iso-2022-jp,guess,euc-jp,cp932,latin1'
+	vim.opt.fileencodings = 'ucs-bom,utf-8,iso-2022-jp,guess,euc-jp,cp932,latin1'
 else
-  vim.opt.fileencodings = 'ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,latin1'
+	vim.opt.fileencodings = 'ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,latin1'
 end
 
 vim.opt.fileformats = 'unix,dos'
@@ -27,13 +27,13 @@ local is_mac = has('mac') or has('macunix')
 local is_vscode = vim.g.vscode == 1
 
 vim.opt.ignorecase = true -- Αγνόηση πεζών/κεφαλαίων κατά την αναζήτηση
-vim.opt.smartcase = true -- Έξυπνη αναζήτηση: χρησιμοποίησε πεζούς/κεφαλαίους αν υπάρχουν στο αναζητούμενο
-vim.opt.hlsearch = true -- Υψηλή φωτεινότητα για το κείμενο κατά την αναζήτηση
-vim.opt.incsearch = true -- Έναρξη αναζήτησης με τον πρώτο χαρακτήρα της λέξης
-vim.opt.swapfile = false -- Απενεργοποίηση δημιουργίας αρχείων ανταλλαγής
-vim.opt.backup = false -- Απενεργοποίηση δημιουργίας αρχείων αντιγραφής ασφαλείας
-vim.opt.hidden = true -- Κρυφό buffer: δυνατότητα αλλαγής buffer χωρίς αποθήκευση
-vim.opt.autoread = true -- Αυτόματη ανάγνωση αρχείου όταν αυτό αλλάξει από άλλη πηγή
+vim.opt.smartcase = true  -- Έξυπνη αναζήτηση: χρησιμοποίησε πεζούς/κεφαλαίους αν υπάρχουν στο αναζητούμενο
+vim.opt.hlsearch = true   -- Υψηλή φωτεινότητα για το κείμενο κατά την αναζήτηση
+vim.opt.incsearch = true  -- Έναρξη αναζήτησης με τον πρώτο χαρακτήρα της λέξης
+vim.opt.swapfile = false  -- Απενεργοποίηση δημιουργίας αρχείων ανταλλαγής
+vim.opt.backup = false    -- Απενεργοποίηση δημιουργίας αρχείων αντιγραφής ασφαλείας
+vim.opt.hidden = true     -- Κρυφό buffer: δυνατότητα αλλαγής buffer χωρίς αποθήκευση
+vim.opt.autoread = true   -- Αυτόματη ανάγνωση αρχείου όταν αυτό αλλάξει από άλλη πηγή
 
 -- Απενεργοποίηση της λειτουργίας paste mode όταν βγαίνουμε από την κατάσταση Insert
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -42,14 +42,14 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 vim.g.markdown_fenced_languages = {
-  "ts=typescript",
-  "js=javascript",
+	"ts=typescript",
+	"js=javascript",
 }
 
 -- keymaps.vim
 vim.api.nvim_set_keymap('n', ',', '<Nop>', { noremap = true, silent = true })
-vim.g.mapleader = ","  -- Ορισμός του leader ως κόμμα
-vim.g.maplocalleader = ","  -- Ορισμός του leader ως κόμμα
+vim.g.mapleader = ","      -- Ορισμός του leader ως κόμμα
+vim.g.maplocalleader = "," -- Ορισμός του leader ως κόμμα
 
 vim.api.nvim_set_keymap('i', '<C-j>', '<esc>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<C-f>', '<tab>', { noremap = true })
@@ -74,8 +74,8 @@ vim.api.nvim_set_keymap('n', '<Space>t', ':tabnew ', { noremap = true })
 
 -- Επιστροφή στην λειτουργία επεξεργασίας (insert) ανάλογα με το περιβάλλον
 if vim.fn.exists(':tnoremap') then
-  vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', { noremap = true })
-  vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n>', { noremap = true })
+	vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', { noremap = true })
+	vim.api.nvim_set_keymap('t', '<C-j>', '<C-\\><C-n>', { noremap = true })
 end
 
 -- Σύντομοι χειρισμοί για τις αγκύλες, παρενθέσεις, και αγκύλες
@@ -94,105 +94,105 @@ vim.api.nvim_set_keymap('i', '<C-d>', '<C-o>x', { noremap = true })
 
 -- Επαναφορά της τελευταίας θέσης του κέρσορα
 if vim.fn.has("autocmd") then
-    vim.api.nvim_create_autocmd("BufReadPost", {
-        pattern = "*",
-        callback = function()
-            if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
-                vim.fn.execute("normal! g'\"")
-            end
-        end
-    })
+	vim.api.nvim_create_autocmd("BufReadPost", {
+		pattern = "*",
+		callback = function()
+			if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
+				vim.fn.execute("normal! g'\"")
+			end
+		end
+	})
 end
 
 -- term  που είναι "screen" ρύθμιση
 if vim.o.term == "screen" then
-    vim.opt.titlestring = "vim(" .. vim.fn.expand("%:t") .. ")"
-    vim.opt.t_ts = "\27k"
-    vim.opt.t_fs = "\27\\"
-    vim.opt.title = true
-		vim.opt.termguicolors = true
+	vim.opt.titlestring = "vim(" .. vim.fn.expand("%:t") .. ")"
+	vim.opt.t_ts = "\27k"
+	vim.opt.t_fs = "\27\\"
+	vim.opt.title = true
+	vim.opt.termguicolors = true
 end
 
 -- Vim Ξεκινά όταν η καρτέλα ή το παράθυρο αλλάξει ή όταν διαβάζεται το αρχείο, BufNewFile
 -- Set titlestring on VimEnter
 vim.api.nvim_create_autocmd("VimEnter", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Set titlestring on TabEnter
 vim.api.nvim_create_autocmd("TabEnter", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Set titlestring on WinEnter
 vim.api.nvim_create_autocmd("WinEnter", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Set titlestring on BufReadPost
 vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Set titlestring on FileReadPost
 vim.api.nvim_create_autocmd("FileReadPost", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Set titlestring on BufNewFile
 vim.api.nvim_create_autocmd("BufNewFile", {
-  pattern = "*",
-  command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	pattern = "*",
+	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
 })
 
 -- Αναγνώριση αρχείων PHP και JavaScript
 vim.api.nvim_create_autocmd("BufNewFile", {
-  pattern = "*.php",
-  command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
+	pattern = "*.php",
+	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-  pattern = "*.php",
-  command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
+	pattern = "*.php",
+	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
 })
 
 vim.api.nvim_create_autocmd("BufNewFile", {
-  pattern = "*.js",
-  command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
+	pattern = "*.js",
+	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-  pattern = "*.js",
-  command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
+	pattern = "*.js",
+	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
 })
 
 
-vim.opt.lazyredraw = true -- スクロール速度
-vim.opt.ttyfast = true -- TTY ファースト
-vim.opt.foldenable = false -- 折りたたみを無効化
-vim.opt.tabstop = 2 -- 読み込み時の <TAB> サイズ
-vim.opt.softtabstop = 2 -- 入力時の <TAB> サイズ
-vim.opt.shiftwidth = 2 -- 自動インデントサイズ
+-- vim.opt.lazyredraw = true             -- スクロール速度
+vim.opt.ttyfast = true                -- TTY ファースト
+vim.opt.foldenable = false            -- 折りたたみを無効化
+vim.opt.tabstop = 2                   -- 読み込み時の <TAB> サイズ
+vim.opt.softtabstop = 2               -- 入力時の <TAB> サイズ
+vim.opt.shiftwidth = 2                -- 自動インデントサイズ
 -- vim.opt.expandtab = true -- タブを空白に変換
-vim.opt.autoindent = true -- インデントを自動で補完
-vim.opt.smartindent = true -- 末尾に応じてインデントの増減
-vim.opt.smarttab = true -- 行頭余白内で <TAB> を打ち込むと 'shiftwidth' の数だけインデント
-vim.opt.list = false -- 不可視文字
-vim.opt.number = true -- 行番号を表示
-vim.opt.relativenumber = true -- 行番号を表示
-vim.opt.signcolumn = 'number'
-vim.opt.ruler = true -- カーソル位置を表示
-vim.opt.cursorline = true -- 現在行をハイライト
-vim.opt.background = "dark" -- 背景を暗く
-vim.opt.showmatch = true -- 対応する括弧を表示
-vim.opt.matchtime = 1 -- 対応する括弧のハイライト時間
+vim.opt.autoindent = true             -- インデントを自動で補完
+vim.opt.smartindent = true            -- 末尾に応じてインデントの増減
+vim.opt.smarttab = true               -- 行頭余白内で <TAB> を打ち込むと 'shiftwidth' の数だけインデント
+vim.opt.list = false                  -- 不可視文字
+vim.opt.number = true                 -- 行番号を表示
+vim.opt.relativenumber = true         -- 行番号を表示
+vim.opt.signcolumn = 'yes'
+vim.opt.ruler = true                  -- カーソル位置を表示
+vim.opt.cursorline = true             -- 現在行をハイライト
+vim.opt.background = "dark"           -- 背景を暗く
+vim.opt.showmatch = true              -- 対応する括弧を表示
+vim.opt.matchtime = 1                 -- 対応する括弧のハイライト時間
 vim.opt.whichwrap = "b,s,h,l,<,>,[,]" -- カーソルが画面外にある場合のスクロール
-vim.opt.ambiwidth = "single" -- 特殊記号が崩れないように（iTerm2 のため）
+vim.opt.ambiwidth = "single"          -- 特殊記号が崩れないように（iTerm2 のため）
 --vim.opt.display = vim.opt.display .. "lastline" -- 最後の行を表示
 vim.opt.display = vim.opt.display + 'lastline'
 --[[
@@ -202,7 +202,7 @@ end
 ]]
 
 vim.opt.cmdheight = 1 -- ステータスライン関連
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.o.statusline = "[%n]"
 vim.o.statusline = vim.o.statusline .. "=%<%F\\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P"
 vim.o.notitle = true
@@ -314,13 +314,15 @@ neovim_plugins = {
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.5',
 		dependencies = {
-			{'nvim-lua/plenary.nvim'},
+			{ 'nvim-lua/plenary.nvim' },
 		},
 		config = function()
 			local builtin = require('telescope.builtin')
 			--vim.keymap.set('n', '<Space>ff', builtin.find_files, {})
 			--vim.keymap.set('n', '<Space>fg', builtin.live_grep, {})
-			vim.api.nvim_set_keymap('n', '<Space>ff', [[<Cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>]], { noremap = true, silent = true })
+			vim.api.nvim_set_keymap('n', '<Space>ff',
+				[[<Cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('%:p:h') })<CR>]],
+				{ noremap = true, silent = true })
 			--vim.api.nvim_set_keymap('n', '<Space>fg', [[<Cmd>lua require('telescope.builtin').live_grep({ cwd = vim.fn.expand('%:p:h') })<CR>]], { noremap = true, silent = true })
 			vim.keymap.set('n', '<Space>fb', builtin.buffers, {})
 			vim.keymap.set('n', '<Space>fh', builtin.help_tags, {})
@@ -336,18 +338,18 @@ neovim_plugins = {
 	{
 		'neovim/nvim-lspconfig',
 		dependencies = {
-			{"williamboman/mason.nvim", config = true },
+			{ "williamboman/mason.nvim", config = true },
 			"williamboman/mason-lspconfig.nvim",
 			'folke/neodev.nvim',
 		},
 		config = function()
 			vim.lsp.handlers["textDocument/publishDiagnostics"] =
-			vim.lsp.with(
-				vim.lsp.diagnostic.on_publish_diagnostics,
-				{
-					virtual_text = false,
-				}
-			)
+					vim.lsp.with(
+						vim.lsp.diagnostic.on_publish_diagnostics,
+						{
+							virtual_text = false,
+						}
+					)
 			local on_attach = function(_, bufnr)
 				local nmap = function(keys, func, desc)
 					if desc then
@@ -409,26 +411,49 @@ neovim_plugins = {
 					}
 				end
 			}
-
 		end
 	},
 	'ap/vim-css-color',
 	{
+		"rcarriga/nvim-notify",
+		config = function()
+			require("notify").setup {
+				stages = 'slide',
+				timeout = 3000,
+			}
+			vim.notify = require('notify')
+		end,
+	},
+	{
+		"folke/noice.nvim",
+		-- event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+		}
+	},
+	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			{'hrsh7th/cmp-nvim-lsp'},
-			{'hrsh7th/cmp-buffer'},
-			{'hrsh7th/cmp-omni'},
-			{'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-cmdline'},
+			{ 'hrsh7th/cmp-nvim-lsp' },
+			{ 'hrsh7th/cmp-buffer' },
+			{ 'hrsh7th/cmp-omni' },
+			{ 'hrsh7th/cmp-path' },
+			{ 'hrsh7th/cmp-cmdline' },
 		},
 		config = function()
-			local cmp = require'cmp'
+			local cmp = require 'cmp'
 			cmp.setup({
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
-						vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+						--vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 						-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
@@ -449,7 +474,7 @@ neovim_plugins = {
 						else
 							fallback()
 						end
-						end, { "i", "s" }),
+					end, { "i", "s" }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
@@ -458,7 +483,7 @@ neovim_plugins = {
 						else
 							fallback()
 						end
-						end, { "i", "s" }),
+					end, { "i", "s" }),
 					['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 					['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
 					['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -471,12 +496,12 @@ neovim_plugins = {
 				},
 				sources = cmp.config.sources({
 					{ name = 'nvim_lsp' },
-					{ name = 'vsnip' }, -- For vsnip users.
+					-- { name = 'vsnip' }, -- For vsnip users.
 					-- { name = 'luasnip' }, -- For luasnip users.
 					-- { name = 'ultisnips' }, -- For ultisnips users.
 					-- { name = 'snippy' }, -- For snippy users.
-					}, {
-						{ name = 'buffer' },
+				}, {
+					{ name = 'buffer' },
 				})
 			})
 
@@ -484,12 +509,12 @@ neovim_plugins = {
 			cmp.setup.filetype('gitcommit', {
 				sources = cmp.config.sources({
 					{ name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-					}, {
-						{ name = 'buffer' },
+				}, {
+					{ name = 'buffer' },
 				})
 			})
 
-			cmp.setup.filetype({'javascript'}, {
+			cmp.setup.filetype({ 'javascript' }, {
 				source = cmp.config.sources({
 					{
 						name = 'denols',
@@ -497,14 +522,14 @@ neovim_plugins = {
 				})
 			});
 
-			cmp.setup.filetype({'php'}, {
+			cmp.setup.filetype({ 'php' }, {
 				sources = cmp.config.sources({
 					{
 						name = 'omni',
 						keyword_length = 4,
 					}
-					}, {
-						{ name = 'buffer' },
+				}, {
+					{ name = 'buffer' },
 				})
 			})
 
@@ -521,8 +546,8 @@ neovim_plugins = {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = 'path' }
-					}, {
-						{ name = 'cmdline' }
+				}, {
+					{ name = 'cmdline' }
 				})
 			})
 
@@ -557,7 +582,7 @@ neovim_plugins = {
 			local configs = require("nvim-treesitter.configs")
 			configs.setup {
 				ensure_installed = {
-					"vimdoc", "vim","dockerfile","fish","typescript","tsx","javascript","json","lua","gitignore","bash","astro","markdown","css","scss","yaml","toml","vue","php","html",
+					"vimdoc", "vim", "dockerfile", "fish", "typescript", "tsx", "javascript", "json", "lua", "gitignore", "bash", "astro", "markdown", "css", "scss", "yaml", "toml", "vue", "php", "html",
 				},
 				highlight = {
 					enable = true,
@@ -566,7 +591,7 @@ neovim_plugins = {
 				},
 				indent = {
 					enable = true,
-					disable ={"html"},
+					disable = { "html" },
 				},
 				autotag = {
 					enable = true,
@@ -609,11 +634,22 @@ neovim_plugins = {
 	},
 	{
 		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-web-devicons', opt = true },
+		dependencies = {
+			{ 'nvim-web-devicons',                 opt = true },
+			{ 'Isrothy/lualine-diagnostic-message' },
+		},
 		options = {
 			theme = 'everforest',
 		},
-		config = 'require("lualine").setup()'
+		config = function()
+			require("lualine").setup {
+				sections = {
+					lualine_c = {
+						"diagnostic-message",
+					}
+				}
+			}
+		end,
 	},
 	{
 		'stevearc/aerial.nvim',
@@ -628,7 +664,7 @@ neovim_plugins = {
 				layout = {
 					placement = "edge",
 				},
-				backends = {"lsp", "treesitter"},
+				backends = { "lsp", "treesitter" },
 				highlight_on_hover = false,
 				filter_kind = {
 					"Class",
@@ -653,10 +689,12 @@ neovim_plugins = {
 		end,
 	},
 	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-web-devicons', opt = true },
-		options = { theme = 'everforest' },
-		config = 'require("lualine").setup()'
+		"mvllow/stand.nvim",
+		config = function()
+			require("stand").setup({
+				minute_interval = 60,
+			})
+		end,
 	},
 	{
 		'stevearc/aerial.nvim',
@@ -671,7 +709,7 @@ neovim_plugins = {
 				layout = {
 					placement = "edge",
 				},
-				backends = {"lsp", "treesitter"},
+				backends = { "lsp", "treesitter" },
 				highlight_on_hover = false,
 				filter_kind = {
 					"Class",
