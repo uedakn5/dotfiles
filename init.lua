@@ -17,7 +17,14 @@ end
 
 vim.opt.fileformats = 'unix,dos'
 
+local has
+has = function(arg)
+	return vim.fn.has(arg) == 1
+end
 -- basic.vim
+local is_win = has('win32') or has('win64')
+local is_mac = has('mac') or has('macunix')
+local is_vscode = vim.g.vscode == 1
 
 vim.opt.ignorecase = true -- Αγνόηση πεζών/κεφαλαίων κατά την αναζήτηση
 vim.opt.smartcase = true -- Έξυπνη αναζήτηση: χρησιμοποίησε πεζούς/κεφαλαίους αν υπάρχουν στο αναζητούμενο
@@ -98,6 +105,7 @@ if vim.o.term == "screen" then
     vim.opt.t_ts = "\27k"
     vim.opt.t_fs = "\27\\"
     vim.opt.title = true
+		vim.opt.termguicolors = true
 end
 
 -- Vim Ξεκινά όταν η καρτέλα ή το παράθυρο αλλάξει ή όταν διαβάζεται το αρχείο, BufNewFile
@@ -186,7 +194,6 @@ if vim.bo.filetype ~= 'man' or vim.bo.filetype ~= 'help' then
 end
 ]]
 
---vim.opt.termguicolors = true
 vim.opt.cmdheight = 1 -- ステータスライン関連
 vim.opt.laststatus = 2
 vim.o.statusline = "[%n]"
@@ -247,21 +254,49 @@ vim.o.redrawtime = 1000
 vim.cmd([[syn sync minlines=100]])
 vim.cmd([[set redrawtime=10000]])
 
--- Plugin
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
+local merge_tables
+merge_tables = function(t1, t2)
+	local merged = {}
+	for _, v in ipairs(t1) do
+		table.insert(merged, v)
+	end
+	for _, v in ipairs(t2) do
+		table.insert(merged, v)
+	end
+	return merged
 end
-vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
+local common_plugins, vscode_plugins, neovim_plugins
+common_plugins = {
+	{
+		'phaazon/hop.nvim',
+		branch = 'v2',
+		config = function()
+			local hop = require('hop')
+			hop.setup { keys = 'etovxqpdygfblzhckisuran' }
+			vim.keymap.set('n', 'zw', ':HopWord<CR>', { silent = true })
+			vim.keymap.set('n', 'zl', ':HopLine<CR>', { silent = true })
+			vim.keymap.set('n', 'zz', ':HopChar1<CR>', { silent = true })
+			vim.keymap.set('n', 'zx', ':HopChar2<CR>', { silent = true })
+		end,
+	},
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
+}
+
+vscode_plugins = {
+
+}
+
+neovim_plugins = {
 	{
 		"tpope/vim-fugitive",
 		config = function()
@@ -291,39 +326,83 @@ require("lazy").setup({
 		main = "ibl",
 		opts = {},
 	},
-	--[[
+	{
+		'neovim/nvim-lspconfig',
+		dependencies = {
+			{"williamboman/mason.nvim", config = true },
+			"williamboman/mason-lspconfig.nvim",
+			'folke/neodev.nvim',
+		},
 		config = function()
-			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan",
+			local on_attach = function(_, bufnr)
+				local nmap = function(keys, func, desc)
+					if desc then
+						desc = 'LSP: ' .. desc
+					end
+
+					vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+				end
+
+				-- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+				-- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
+				nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+				nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+				nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+				nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+
+				-- See `:help K` for why this keymap
+				nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+				nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
+				-- Lesser used LSP functionality
+				nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+				nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+				nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+				nmap('<leader>wl', function()
+					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+				end, '[W]orkspace [L]ist Folders')
+
+				-- Create a command `:Format` local to the LSP buffer
+				vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+					vim.lsp.buf.format()
+				end, { desc = 'Format current buffer with LSP' })
+			end
+
+			require('neodev').setup()
+
+			local servers = {
+				-- rust_analyzer = {},
 			}
 
-			local hooks = require "ibl.hooks"
-			-- create the highlight groups in the highlight setup hook, so they are reset
-			-- every time the colorscheme changes
-			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75", ctermfg = 203 })
-				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B", ctermfg = 227 })
-				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF", ctermfg = 111 })
-				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66", ctermfg = 208 })
-				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379", ctermfg = 113 })
-				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD", ctermfg = 99 })
-				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2", ctermfg = 39 })
-			end)
+			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-			require("ibl").setup { indent = { highlight = highlight } }
-		end,
+			-- Ensure the servers above are installed
+			local mason_lspconfig = require 'mason-lspconfig'
+
+			mason_lspconfig.setup {
+				ensure_installed = vim.tbl_keys(servers),
+			}
+
+			mason_lspconfig.setup_handlers {
+				function(server_name)
+					require('lspconfig')[server_name].setup {
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = servers[server_name],
+						filetypes = (servers[server_name] or {}).filetypes,
+					}
+				end
+			}
+
+		end
 	},
-	]]
+	'ap/vim-css-color',
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			{'neovim/nvim-lspconfig'},
 			{'hrsh7th/cmp-nvim-lsp'},
 			{'hrsh7th/cmp-buffer'},
 			{'hrsh7th/cmp-path'},
@@ -349,23 +428,23 @@ require("lazy").setup({
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						--elseif luasnip.expand_or_jumpable() then
-						--	luasnip.expand_or_jump()
-						--elseif has_words_before() then
-						--	cmp.complete()
+							--elseif luasnip.expand_or_jumpable() then
+							--	luasnip.expand_or_jump()
+							--elseif has_words_before() then
+							--	cmp.complete()
 						else
 							fallback()
 						end
-					end, { "i", "s" }),
+						end, { "i", "s" }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
-						--elseif luasnip.jumpable(-1) then
-						--	luasnip.jump(-1)
+							--elseif luasnip.jumpable(-1) then
+							--	luasnip.jump(-1)
 						else
 							fallback()
 						end
-					end, { "i", "s" }),
+						end, { "i", "s" }),
 					['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 					['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
 					['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -382,8 +461,8 @@ require("lazy").setup({
 					-- { name = 'luasnip' }, -- For luasnip users.
 					-- { name = 'ultisnips' }, -- For ultisnips users.
 					-- { name = 'snippy' }, -- For snippy users.
-				}, {
-					{ name = 'buffer' },
+					}, {
+						{ name = 'buffer' },
 				})
 			})
 
@@ -391,8 +470,8 @@ require("lazy").setup({
 			cmp.setup.filetype('gitcommit', {
 				sources = cmp.config.sources({
 					{ name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-				}, {
-					{ name = 'buffer' },
+					}, {
+						{ name = 'buffer' },
 				})
 			})
 
@@ -409,8 +488,8 @@ require("lazy").setup({
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = 'path' }
-				}, {
-					{ name = 'cmdline' }
+					}, {
+						{ name = 'cmdline' }
 				})
 			})
 
@@ -418,7 +497,7 @@ require("lazy").setup({
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 			--require('lspconfig')['phpactor'].setup {
-				--capabilities = capabilities
+			--capabilities = capabilities
 			--}
 		end,
 	},
@@ -442,16 +521,6 @@ require("lazy").setup({
 		},
 	},
 	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
-	},
-	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ":TSUpdate",
 		config = function()
@@ -473,18 +542,6 @@ require("lazy").setup({
 					enable = true,
 				},
 			}
-		end,
-	},
-	{
-		'phaazon/hop.nvim',
-		branch = 'v2',
-		config = function()
-			local hop = require('hop')
-			hop.setup { keys = 'etovxqpdygfblzhckisuran' }
-			vim.keymap.set('n', 'zw', ':HopWord<CR>', { silent = true })
-			vim.keymap.set('n', 'zl', ':HopLine<CR>', { silent = true })
-			vim.keymap.set('n', 'zz', ':HopChar1<CR>', { silent = true })
-			vim.keymap.set('n', 'zx', ':HopChar2<CR>', { silent = true })
 		end,
 	},
 	{
@@ -608,4 +665,23 @@ require("lazy").setup({
 			vim.keymap.set("n", "<Space>a", "<cmd>AerialToggle!<CR>")
 		end,
 	},
-})
+}
+
+
+-- Plugin
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup(
+	merge_tables(common_plugins, is_vscode and vscode_plugins or neovim_plugins)
+)
