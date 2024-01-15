@@ -14,7 +14,7 @@ case "${OSTYPE}" in
     ;;
 esac
 
-alias v='vim'
+alias v='nvim'
 alias vi='vim'
 alias view='view -M'
 alias bim='view -u NONE'
@@ -22,7 +22,7 @@ alias so='source'
 alias cdp='cd -P'
 alias g='git'
 alias gi='git'
-alias vdf='vimdiff'
+alias vdf='nvim -d'
 alias vimdf='vimdiff'
 alias lessf='less +F'
 
