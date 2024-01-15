@@ -425,20 +425,6 @@ neovim_plugins = {
 		end,
 	},
 	{
-		"folke/noice.nvim",
-		-- event = "VeryLazy",
-		opts = {
-			-- add any options here
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-		}
-	},
-	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			{ 'hrsh7th/cmp-nvim-lsp' },
@@ -614,11 +600,10 @@ neovim_plugins = {
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.g.everforest_background = 'hard'
-			vim.cmd([[colorscheme everforest]])
+			--vim.g.everforest_background = 'hard'
+			--vim.cmd([[colorscheme everforest]])
 		end,
 	},
-	"itchyny/landscape.vim",
 	{
 		"sainnhe/edge",
 		lazy = false,
@@ -626,7 +611,7 @@ neovim_plugins = {
 		config = function()
 			vim.g.edge_style = 'aura'
 			vim.g.edge_better_performance = 1
-			--vim.cmd([[colorscheme edge]])
+			vim.cmd([[colorscheme edge]])
 		end,
 	},
 	{
@@ -694,43 +679,6 @@ neovim_plugins = {
 			require("stand").setup({
 				minute_interval = 60,
 			})
-		end,
-	},
-	{
-		'stevearc/aerial.nvim',
-		opts = {},
-		-- Optional dependencies
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons"
-		},
-		config = function()
-			require("aerial").setup({
-				layout = {
-					placement = "edge",
-				},
-				backends = { "lsp", "treesitter" },
-				highlight_on_hover = false,
-				filter_kind = {
-					"Class",
-					"Constructor",
-					"Enum",
-					"Function",
-					"Interface",
-					"Module",
-					"Method",
-					"Struct",
-				},
-				nerd_font = "auto",
-				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
-				on_attach = function(bufnr)
-					-- Jump forwards/backwards with '{' and '}'
-					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-				end,
-			})
-			-- You probably also want to set a keymap to toggle aerial
-			vim.keymap.set("n", "<Space>a", "<cmd>AerialToggle!<CR>")
 		end,
 	},
 }
