@@ -35,6 +35,8 @@ vim.opt.backup = false    -- Απενεργοποίηση δημιουργίας
 vim.opt.hidden = true     -- Κρυφό buffer: δυνατότητα αλλαγής buffer χωρίς αποθήκευση
 vim.opt.autoread = true   -- Αυτόματη ανάγνωση αρχείου όταν αυτό αλλάξει από άλλη πηγή
 
+vim.opt.diffopt:append("internal", "filler", "algorithm:histogram", "indent-heuristic")
+
 -- Απενεργοποίηση της λειτουργίας paste mode όταν βγαίνουμε από την κατάσταση Insert
 vim.api.nvim_create_autocmd("InsertLeave", {
 	pattern = "*",
