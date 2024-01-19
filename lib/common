@@ -25,6 +25,7 @@ alias gi='git'
 alias vdf='nvim -d'
 alias vimdf='vimdiff'
 alias lessf='less +F'
+alias mgmg='~/bin/linmerge'
 
 if [ -f "/usr/share/bash-completion/completions/git" ]; then
   source /usr/share/bash-completion/completions/git
