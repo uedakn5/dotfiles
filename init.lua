@@ -335,6 +335,7 @@ neovim_plugins = {
 		main = "ibl",
 		opts = {},
 	},
+	--[[
 	{
 		'neovim/nvim-lspconfig',
 		dependencies = {
@@ -413,6 +414,7 @@ neovim_plugins = {
 			}
 		end
 	},
+	]]
 	'ap/vim-css-color',
 	{
 		"rcarriga/nvim-notify",
@@ -500,6 +502,7 @@ neovim_plugins = {
 				})
 			})
 
+			--[[
 			cmp.setup.filetype({ 'javascript' }, {
 				source = cmp.config.sources({
 					{
@@ -507,6 +510,7 @@ neovim_plugins = {
 					}
 				})
 			});
+			]]
 
 			cmp.setup.filetype({ 'php' }, {
 				sources = cmp.config.sources({
@@ -518,6 +522,15 @@ neovim_plugins = {
 					{ name = 'buffer' },
 				})
 			})
+			--[[
+			cmp.setup.filetype({ 'php' }, {
+				sources = cmp.config.sources({
+					{
+						name = 'phpcs',
+					}
+				})
+			})
+			]]
 
 			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 			cmp.setup.cmdline({ '/', '?' }, {
@@ -572,7 +585,9 @@ neovim_plugins = {
 				},
 				highlight = {
 					enable = true,
-					additional_vim_regex_highlighting = false,
+					additional_vim_regex_highlighting = {
+						"php",
+					},
 					disable = {},
 				},
 				indent = {
@@ -583,6 +598,11 @@ neovim_plugins = {
 					enable = true,
 				},
 			}
+			vim.cmd([[
+				set nofoldenable
+				set foldmethod=expr
+				set foldexpr=nvim_treesitter#foldexpr()
+			]])
 		end,
 	},
 	{
@@ -701,3 +721,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(
 	merge_tables(common_plugins, is_vscode and vscode_plugins or neovim_plugins)
 )
+
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	command = "lua vim.diagnostic.disable()"
+})
