@@ -717,14 +717,6 @@ neovim_plugins = {
 			vim.keymap.set("n", "<Space>a", "<cmd>AerialToggle!<CR>")
 		end,
 	},
-	{
-		"mvllow/stand.nvim",
-		config = function()
-			require("stand").setup({
-				minute_interval = 60,
-			})
-		end,
-	},
 }
 
 
