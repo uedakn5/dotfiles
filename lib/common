@@ -30,6 +30,7 @@ alias g='git'
 alias gi='git'
 alias vimdf='vimdiff'
 alias lessf='less +F'
+alias aki='du -h -d 1 | sort -h'
 alias mgmg='~/bin/linmerge'
 
 if [ -f "/usr/share/bash-completion/completions/git" ]; then
