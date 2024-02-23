@@ -14,7 +14,13 @@ case "${OSTYPE}" in
     ;;
 esac
 
-alias v='nvim'
+if ! command -v nvim &> /dev/null; then
+  alias v='vim'
+	alias vdf='vim -d'
+else
+  alias v='nvim'
+	alias vdf='nvim -d'
+fi
 alias vi='vim'
 alias view='view -M'
 alias bim='view -u NONE'
@@ -22,7 +28,6 @@ alias so='source'
 alias cdp='cd -P'
 alias g='git'
 alias gi='git'
-alias vdf='nvim -d'
 alias vimdf='vimdiff'
 alias lessf='less +F'
 alias mgmg='~/bin/linmerge'
