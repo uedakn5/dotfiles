@@ -17,7 +17,8 @@ done
 
 mkdir -p $NVIM_DIR
 mkdir -p $VIM_DIR
-ln -nfs $DOTFILEPATH/nvimrc ${NVIM_DIR}/init.vim
+ln -nfs $DOTFILEPATH/nvimrc ${NVIM_DIR}/__init.vim
+ln -nfs $DOTFILEPATH/init.lua ${NVIM_DIR}/init.lua
 if [ ! -d ${NVIM_DIR}/rc ]; then
   ln -nfs $DOTFILEPATH/rc ${NVIM_DIR}/rc
 fi
