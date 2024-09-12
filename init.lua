@@ -107,6 +107,7 @@ if vim.fn.has("autocmd") then
 end
 
 -- term  που είναι "screen" ρύθμιση
+--[[
 if vim.o.term == "screen" then
 	vim.opt.titlestring = "vim(" .. vim.fn.expand("%:t") .. ")"
 	vim.opt.t_ts = "\27k"
@@ -114,6 +115,7 @@ if vim.o.term == "screen" then
 	vim.opt.title = true
 	vim.opt.termguicolors = true
 end
+]]--
 
 -- Vim Ξεκινά όταν η καρτέλα ή το παράθυρο αλλάξει ή όταν διαβάζεται το αρχείο, BufNewFile
 -- Set titlestring on VimEnter
@@ -207,12 +209,12 @@ vim.opt.cmdheight = 1 -- ステータスライン関連
 vim.opt.laststatus = 3
 vim.o.statusline = "[%n]"
 vim.o.statusline = vim.o.statusline .. "=%<%F\\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P"
-vim.o.notitle = true
-vim.o.nowildmenu = true
+--vim.o.notitle = true
+--vim.o.nowildmenu = true
 vim.o.wildmode = "longest,list"
 vim.o.wildignore = "*.o,*.obj,*.pyc,*.so,*.dll"
 vim.o.showcmd = true
-vim.o.browsedir = "buffer"
+--vim.o.browsedir = "buffer"
 
 vim.api.nvim_command("sign define dummy")
 vim.api.nvim_command("execute 'sign place 9999 line=1 name=dummy buffer=' .. bufnr('')")
@@ -254,10 +256,10 @@ vim.opt.mouse = ""
 --vim.o.t_Co = 256
 --vim.o.t_ut = ""
 vim.o.synmaxcol = 240
-vim.o.synmaxline = 200
-vim.o.synchronize = true
+--vim.o.synmaxline = 200
+--vim.o.synchronize = true
 vim.o.synmaxcol = 300
-vim.o.synmaxline = 300
+--vim.o.synmaxline = 300
 vim.o.updatetime = 100
 vim.o.redrawtime = 1000
 vim.cmd([[syn sync minlines=100]])
