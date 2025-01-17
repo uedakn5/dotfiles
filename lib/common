@@ -42,12 +42,12 @@ fi
 
 mybkupdb () {
 	v_datetime=$(date "+%Y%m%d_%H%M%S")
-	mysqldump -u $1 -p -h $2 --routine $3 > ${4:-$3}_${v_datetime}.sql
+	mysqldump -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
 }
 
 mybkupdbtablenospace () {
 	v_datetime=$(date "+%Y%m%d_%H%M%S")
-	mysqldump --no-tablespaces -u $1 -p -h $2 --routine $3 > ${4:-$3}_${v_datetime}.sql
+	mysqldump --no-tablespaces -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
 }
 
 mygrep () {
