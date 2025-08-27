@@ -740,8 +740,12 @@ require("lazy").setup(
 	merge_tables(common_plugins, is_vscode and vscode_plugins or neovim_plugins)
 )
 
-
+local grp = vim.api.nvim_create_augroup("DisableDiagnosticsOnBufEnter", { clear = true })
 vim.api.nvim_create_autocmd("BufEnter", {
+	group = grp,
 	pattern = "*",
-	command = "lua vim.diagnostic.disable()"
+	callback = function(args)
+		-- そのバッファだけ診断を無効化（旧 disable(0) 相当）
+		vim.diagnostic.enable(false, { bufnr = args.buf })
+	end,
 })
