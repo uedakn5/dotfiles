@@ -21,10 +21,55 @@ local has
 has = function(arg)
 	return vim.fn.has(arg) == 1
 end
--- basic.vim
-local is_win = has('win32') or has('win64')
-local is_mac = has('mac') or has('macunix')
-local is_vscode = vim.g.vscode == 1
+
+local function is_wsl()
+	if has('wsl') then
+		return true
+	end
+
+	local release = vim.uv and vim.uv.os_uname().release or ""
+	return release:lower():find("microsoft", 1, true) ~= nil
+end
+
+local platform = {
+	is_win = has('win32') or has('win64'),
+	is_mac = has('mac') or has('macunix'),
+	is_wsl = is_wsl(),
+	is_vscode = vim.g.vscode == 1,
+}
+
+local is_win = platform.is_win
+local is_mac = platform.is_mac
+local is_wsl = platform.is_wsl
+local is_vscode = platform.is_vscode
+
+local augroup = function(name)
+	return vim.api.nvim_create_augroup(name, { clear = true })
+end
+
+local group_insert = augroup("dotfiles_insert")
+local group_cursor = augroup("dotfiles_cursor")
+local group_title = augroup("dotfiles_title")
+local group_filetypes = augroup("dotfiles_filetypes")
+local group_diagnostics = augroup("DisableDiagnosticsOnBufEnter")
+
+local function set_title()
+	vim.o.titlestring = "vim(" .. vim.fn.expand("%:t") .. ")"
+end
+
+local function set_filetype(filetype)
+	return function()
+		vim.bo.filetype = filetype
+	end
+end
+
+local function visible_buffers()
+	local bufs = {}
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		bufs[vim.api.nvim_win_get_buf(win)] = true
+	end
+	return vim.tbl_keys(bufs)
+end
 
 vim.opt.ignorecase = true -- Αγνόηση πεζών/κεφαλαίων κατά την αναζήτηση
 vim.opt.smartcase = true  -- Έξυπνη αναζήτηση: χρησιμοποίησε πεζούς/κεφαλαίους αν υπάρχουν στο αναζητούμενο
@@ -39,6 +84,7 @@ vim.opt.diffopt:append("iwhite", "internal", "filler", "algorithm:histogram", "i
 
 -- Απενεργοποίηση της λειτουργίας paste mode όταν βγαίνουμε από την κατάσταση Insert
 vim.api.nvim_create_autocmd("InsertLeave", {
+	group = group_insert,
 	pattern = "*",
 	command = "set nopaste"
 })
@@ -97,6 +143,7 @@ vim.api.nvim_set_keymap('i', '<C-d>', '<C-o>x', { noremap = true })
 -- Επαναφορά της τελευταίας θέσης του κέρσορα
 if vim.fn.has("autocmd") then
 	vim.api.nvim_create_autocmd("BufReadPost", {
+		group = group_cursor,
 		pattern = "*",
 		callback = function()
 			if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
@@ -109,7 +156,7 @@ end
 -- term  που είναι "screen" ρύθμιση
 --[[
 if vim.o.term == "screen" then
-	vim.opt.titlestring = "vim(" .. vim.fn.expand("%:t") .. ")"
+	set_title()
 	vim.opt.t_ts = "\27k"
 	vim.opt.t_fs = "\27\\"
 	vim.opt.title = true
@@ -117,62 +164,23 @@ if vim.o.term == "screen" then
 end
 ]]--
 
--- Vim Ξεκινά όταν η καρτέλα ή το παράθυρο αλλάξει ή όταν διαβάζεται το αρχείο, BufNewFile
--- Set titlestring on VimEnter
-vim.api.nvim_create_autocmd("VimEnter", {
+vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "WinEnter", "BufReadPost", "FileReadPost", "BufNewFile" }, {
+	group = group_title,
 	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
-})
-
--- Set titlestring on TabEnter
-vim.api.nvim_create_autocmd("TabEnter", {
-	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
-})
-
--- Set titlestring on WinEnter
-vim.api.nvim_create_autocmd("WinEnter", {
-	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
-})
-
--- Set titlestring on BufReadPost
-vim.api.nvim_create_autocmd("BufReadPost", {
-	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
-})
-
--- Set titlestring on FileReadPost
-vim.api.nvim_create_autocmd("FileReadPost", {
-	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
-})
-
--- Set titlestring on BufNewFile
-vim.api.nvim_create_autocmd("BufNewFile", {
-	pattern = "*",
-	command = [[lua vim.cmd('let &titlestring = "vim(" . expand("%:t") . ")"')]]
+	callback = set_title,
 })
 
 -- Αναγνώριση αρχείων PHP και JavaScript
-vim.api.nvim_create_autocmd("BufNewFile", {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	group = group_filetypes,
 	pattern = "*.php",
-	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
+	callback = set_filetype("php"),
 })
 
-vim.api.nvim_create_autocmd("BufRead", {
-	pattern = "*.php",
-	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'php')"
-})
-
-vim.api.nvim_create_autocmd("BufNewFile", {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	group = group_filetypes,
 	pattern = "*.js",
-	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
-})
-
-vim.api.nvim_create_autocmd("BufRead", {
-	pattern = "*.js",
-	command = "lua vim.api.nvim_buf_set_option(0, 'filetype', 'javascript')"
+	callback = set_filetype("javascript"),
 })
 
 
@@ -265,8 +273,7 @@ vim.o.redrawtime = 1000
 vim.cmd([[syn sync minlines=100]])
 vim.cmd([[set redrawtime=10000]])
 
-local merge_tables
-merge_tables = function(t1, t2)
+local merge_tables = function(t1, t2)
 	local merged = {}
 	for _, v in ipairs(t1) do
 		table.insert(merged, v)
@@ -496,16 +503,10 @@ neovim_plugins = {
 					{
 						name = 'buffer',
 						option = {
-							get_bufnrs = function()
-								local bufs = {}
-								for _, win in ipairs(vim.api.nvim_list_wins()) do
-									bufs[vim.api.nvim_win_get_buf(win)] = true
-								end
-								return vim.tbl_keys(bufs)
-							end
+								get_bufnrs = visible_buffers,
+							},
 						},
-					},
-				})
+					})
 			})
 
 			-- Set configuration for specific filetype.
@@ -537,16 +538,10 @@ neovim_plugins = {
 					{
 						name = 'buffer',
 						option = {
-							get_bufnrs = function()
-								local bufs = {}
-								for _, win in ipairs(vim.api.nvim_list_wins()) do
-									bufs[vim.api.nvim_win_get_buf(win)] = true
-								end
-								return vim.tbl_keys(bufs)
-							end
+								get_bufnrs = visible_buffers,
+							},
 						},
-					},
-				})
+					})
 			})
 			--[[
 			cmp.setup.filetype({ 'php' }, {
@@ -602,6 +597,8 @@ neovim_plugins = {
 	},
 	{
 		'nvim-treesitter/nvim-treesitter',
+		branch = "master",
+		lazy = false,
 		build = ":TSUpdate",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
@@ -740,9 +737,8 @@ require("lazy").setup(
 	merge_tables(common_plugins, is_vscode and vscode_plugins or neovim_plugins)
 )
 
-local grp = vim.api.nvim_create_augroup("DisableDiagnosticsOnBufEnter", { clear = true })
 vim.api.nvim_create_autocmd("BufEnter", {
-	group = grp,
+	group = group_diagnostics,
 	pattern = "*",
 	callback = function(args)
 		-- そのバッファだけ診断を無効化（旧 disable(0) 相当）
