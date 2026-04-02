@@ -3,87 +3,201 @@ set -euC
 
 C() {
   case $1 in
-    black)    echo -e -n "\033[1;30m";;
-    red)      echo -e -n "\033[1;31m";;
-    green)    echo -e -n "\033[1;32m";;
-    yellow)   echo -e -n "\033[1;33m";;
-    blue)     echo -e -n "\033[1;34m";;
-    magenta)  echo -e -n "\033[1;35m";;
-    cyan)     echo -e -n "\033[1;36m";;
-    white)    echo -e -n "\033[1;37m";;
-    *) echo -e -n "\033[0m";;
+    black)   printf '\033[1;30m' ;;
+    red)     printf '\033[1;31m' ;;
+    green)   printf '\033[1;32m' ;;
+    yellow)  printf '\033[1;33m' ;;
+    blue)    printf '\033[1;34m' ;;
+    magenta) printf '\033[1;35m' ;;
+    cyan)    printf '\033[1;36m' ;;
+    white)   printf '\033[1;37m' ;;
+    *)       printf '\033[0m' ;;
   esac
+}
+
+print_flag() {
+  local color=$1
+  local value=$2
+  C "$color"
+  printf '%s' "$value"
+}
+
+git_status_snapshot() {
+  if [ -z "${GIT_PS_SNAPSHOT-}" ]; then
+    GIT_PS_SNAPSHOT=$(git status --porcelain=2 --branch --ignore-submodules)
+  fi
+  printf '%s\n' "$GIT_PS_SNAPSHOT"
+}
+
+git_dir() {
+  git rev-parse --git-dir 2>/dev/null
+}
+
+has_stash() {
+  git rev-parse --verify --quiet refs/stash >/dev/null
+}
+
+git_operation() {
+  local dir
+  dir=$(git_dir) || return 0
+
+  if [ -d "$dir/rebase-merge" ] || [ -d "$dir/rebase-apply" ]; then
+    printf 'REBASE'
+  elif [ -f "$dir/MERGE_HEAD" ]; then
+    printf 'MERGE'
+  elif [ -f "$dir/CHERRY_PICK_HEAD" ]; then
+    printf 'PICK'
+  elif [ -f "$dir/REVERT_HEAD" ]; then
+    printf 'REVERT'
+  elif [ -f "$dir/BISECT_LOG" ]; then
+    printf 'BISECT'
+  fi
 }
 
 status() {
   local modified=0
   local cached=0
   local untracked=0
+  local conflicted=0
+  local line xy
 
   while read -r line; do
-    if [ "$line" = '_?_?_' ]; then
-      untracked=1
-      continue
-    fi
+    case "$line" in
+      \?\ *)
+        untracked=1
+        ;;
+      u\ *)
+        conflicted=1
+        ;;
+      1\ *|2\ *)
+        xy=${line#? }
+        xy=${xy%% *}
 
-    if [[ "$line" =~ ^_[^[:space:]]_.?_ ]]; then
-      cached=1
-    fi
+        if [ "${xy:0:1}" != "." ]; then
+          cached=1
+        fi
 
-    if [[ "$line" =~ ^_._[^[:space:]]_ ]]; then
-      modified=1
-    fi
-  done < <(git status --short | cut -b -2 | sed -e 's/\(.\)\(.*\)/_\1_\2_/')
+        if [ "${xy:1:1}" != "." ]; then
+          modified=1
+        fi
+        ;;
+    esac
+  done < <(git_status_snapshot)
 
-  if [ $modified -ne 0 ]; then
-    C red
-    echo -n 'M'
+  if [ "$conflicted" -ne 0 ]; then
+    print_flag yellow 'U'
   fi
 
-  if [ $cached -ne 0 ]; then
-    C green
-    echo -n 'C'
+  if [ "$modified" -ne 0 ]; then
+    print_flag red 'M'
   fi
 
-  if [ $untracked -ne 0 ]; then
-    C red
-    echo -n '?'
+  if [ "$cached" -ne 0 ]; then
+    print_flag green 'C'
   fi
 
-  if [ -n "$(git stash list)" ]; then
-    C cyan
-    echo -n 'S'
+  if [ "$untracked" -ne 0 ]; then
+    print_flag red '?'
   fi
+
+  if has_stash; then
+    print_flag cyan 'S'
+  fi
+
   C reset
 }
 
-branch() {
+branch_name() {
+  local head
+  head=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+  if [ -n "$head" ]; then
+    printf '%s' "$head"
+    return
+  fi
+
+  head=$(git rev-parse --short HEAD 2>/dev/null || true)
+  if [ -n "$head" ]; then
+    printf 'detached@%s' "$head"
+  fi
+}
+
+print_branch() {
   local branch
-  branch="$(git branch 2>/dev/null | grep '^\*' | sed -e "s/^* //")"
-  if [[ "${branch}" =~ ^bug- ]]; then
+  branch=$(branch_name)
+
+  if [[ "$branch" =~ ^bug- ]]; then
     C green
-  elif [[ "${branch}" =~ ^atc- ]]; then
+  elif [[ "$branch" =~ ^atc- ]]; then
     C cyan
-  elif [[ "${branch}" =~ ^tmp ]]; then
+  elif [[ "$branch" =~ ^tmp ]]; then
     C magenta
-  elif [[ "${branch}" = "(detached from hde/master)" ]]; then
+  elif [[ "$branch" =~ ^detached@ ]]; then
     C yellow
   else
     C white
   fi
-  echo -n "${branch}"
+
+  printf '%s' "$branch"
   C reset
 }
 
-hash() {
-  git log --pretty=format:'%h' -n 1
+head_hash() {
+  git rev-parse --short HEAD
+}
+
+upstream_delta() {
+  local line ahead behind
+
+  while read -r line; do
+    case "$line" in
+      '# branch.ab '*)
+        ahead=0
+        behind=0
+        if [[ "$line" =~ \+([0-9]+) ]]; then
+          ahead=${BASH_REMATCH[1]}
+        fi
+        if [[ "$line" =~ -([0-9]+) ]]; then
+          behind=${BASH_REMATCH[1]}
+        fi
+
+        if [ "$ahead" -eq 0 ] && [ "$behind" -eq 0 ]; then
+          return 0
+        fi
+
+        if [ "$ahead" -ne 0 ]; then
+          print_flag green "+${ahead}"
+        fi
+        if [ "$behind" -ne 0 ]; then
+          print_flag red "-${behind}"
+        fi
+        C reset
+        return 0
+        ;;
+    esac
+  done < <(git_status_snapshot)
 }
 
 git_ps() {
+  local operation delta
+
   if ! git status --ignore-submodules &>/dev/null; then
     return
   fi
-  echo "git[$(status)]=$(branch):$(hash)"
+
+  operation=$(git_operation || true)
+  delta=$(upstream_delta || true)
+
+  printf 'git[%s]=%s:%s' "$(status)" "$(print_branch)" "$(head_hash)"
+
+  if [ -n "$delta" ]; then
+    printf '%s' "$delta"
+  fi
+
+  if [ -n "$operation" ]; then
+    printf ' %s%s%s' "$(C yellow)" "$operation" "$(C reset)"
+  fi
+
+  printf '\n'
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

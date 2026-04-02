@@ -1,4 +1,5 @@
 [alias]
+	# add
 	a = add
 	ap = add -p
 	au = add -u
@@ -6,40 +7,57 @@
 	adu = add -u
 	adup = add -u -p
 	adpu = add -u -p
+
+	# commit
 	amend = commit --amend
-	forcepush = push --force
+	cm = commit
+	cmm = commit -m
+	cancel = reset --soft HEAD^
+
+	# push
+	forcepush = push --force-with-lease
 	drypush = push -n
 	puss = push -n
 	poh = push origin HEAD
+
+	# branch
 	b = branch
-	br = for-each-ref --sort=committerdate refs/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 	bg = log --graph --simplify-by-decoration --pretty=format:'%d' --all
 	bnn = rev-parse --abbrev-ref HEAD
-	cancel = reset --soft HEAD^
-	unstage = reset -p --
+	br = for-each-ref --sort=committerdate refs/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+	cb = checkout -b
+	cob = checkout -b
+	co = checkout
+	cp = cherry-pick
+	cpn = cherry-pick -n
+
+	# diff
 	d = diff
 	df = diff
 	dc = diff --cached
 	dfc = diff --cached
 	dff = diff --name-only
-	dw = --word-diff
+	dw = diff --word-diff
 	dfw = diff --word-diff
+
+	# status
 	s = status
 	ss = status
 	sss = status -uno
-	cp = cherry-pick
-	cpn = cherry-pick -n
-	cm = commit
-	cmm = commit -m
-	co = checkout
-	cb = checkout -b
-	cob = checkout -b
+	st = status -sb
+	unstage = reset -p --
+
+	# log
 	graph = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
 	gr = log --graph --date=iso --pretty=\"format:%C(yellow)%h %C(cyan)%ad%C(reset) %C(green)%an%C(bold white)%x09%s%C(reset) %C(red)%d%C(reset)\"
-	al = config --get-regexp alias.*
 	today = gr --oneline --since='12 hour ago'
+
+	# inspect
+	al = config --get-regexp alias.*
 	rev = remote -v
 [core]
 	editor = vim
 [include]
 	path = .gitconfig.work
+[include]
+	path = .gitconfig.local
