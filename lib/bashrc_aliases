@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PATH=$PATH:$HOME/bin
 export IGNOREEOF=3
 
@@ -16,10 +18,10 @@ esac
 
 if ! command -v nvim &> /dev/null; then
   alias v='vim'
-	alias vdf='vim -d'
+  alias vdf='vim -d'
 else
   alias v='nvim'
-	alias vdf='nvim -d'
+  alias vdf='nvim -d'
 fi
 alias vi='vim'
 alias view='view -M'
@@ -33,6 +35,20 @@ alias lessf='less +F'
 alias aki='du -h -d 1 | sort -h'
 alias mgmg='~/bin/linmerge'
 
+if is_wsl && command -v ssh.exe >/dev/null 2>&1; then
+  ssh() {
+    ssh.exe "$@"
+  }
+
+  scp() {
+    scp.exe "$@"
+  }
+
+  sftp() {
+    sftp.exe "$@"
+  }
+fi
+
 if [ -f "/usr/share/bash-completion/completions/git" ]; then
   source /usr/share/bash-completion/completions/git
   __git_complete g __git_main
@@ -40,16 +56,16 @@ else
   echo "Error loading git completions"
 fi
 
-mybkupdb () {
-	v_datetime=$(date "+%Y%m%d_%H%M%S")
-	mysqldump -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
+mybkupdb() {
+  v_datetime=$(date "+%Y%m%d_%H%M%S")
+  mysqldump -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
 }
 
-mybkupdbtablenospace () {
-	v_datetime=$(date "+%Y%m%d_%H%M%S")
-	mysqldump --no-tablespaces -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
+mybkupdbtablenospace() {
+  v_datetime=$(date "+%Y%m%d_%H%M%S")
+  mysqldump --no-tablespaces -u $1 -p -h $2 --routines $3 > ${4:-$3}_${v_datetime}.sql
 }
 
-mygrep () {
-	find . -type f | xargs grep $1
+mygrep() {
+  find . -type f | xargs grep $1
 }

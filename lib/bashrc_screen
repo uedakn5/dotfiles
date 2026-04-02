@@ -1,0 +1,54 @@
+#!/bin/bash
+
+screen_mode="${DOTFILES_SCREEN_MODE:-auto}"
+
+should_start_screen() {
+  case "$screen_mode" in
+    always)
+      return 0
+      ;;
+    never)
+      return 1
+      ;;
+    auto)
+      is_ssh_session
+      return $?
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+# Turn off DEBUG trap until screen-specific handling is enabled below.
+trap "" DEBUG
+
+if [ -z "${STY-}" ] && [ "${TERM-}" != 'dumb' ] && command -v screen >/dev/null 2>&1 && should_start_screen; then
+  screen -rx || screen -D -RR
+fi
+
+if [ -n "${STY-}" ]; then
+  export PROMPT_COMMAND='true'
+
+  set_screen_window() {
+    local hpwd
+    hpwd=$(basename "$PWD")
+    if [ "$hpwd" = "$USER" ]; then
+      hpwd='~'
+    fi
+    if [ ${#hpwd} -ge 10 ]; then
+      hpwd="..${hpwd:${#hpwd}-8:${#hpwd}}"
+    fi
+    case "$BASH_COMMAND" in
+      *\033]0*) ;;
+      "true")
+        printf '\ek%s\e\\' "$hpwd:"
+        ;;
+      *)
+        printf '\ek%s\e\\' "$hpwd:${BASH_COMMAND:0:20}"
+        ;;
+    esac
+  }
+
+  trap set_screen_window DEBUG
+fi

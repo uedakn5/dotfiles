@@ -1,15 +1,33 @@
 #!/bin/bash
-# .bashrc
 
-# Source global definitions
+# Source global definitions.
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+  . /etc/bashrc
 fi
 
-if [ "$(id -u)" -ne 0 ]; then
-	. $HOME/dotfiles/lib/bashrc_core
-	. $HOME/dotfiles/lib/common
+if [ -f "$HOME/dotfiles/lib/bashrc_env" ]; then
+  . "$HOME/dotfiles/lib/bashrc_env"
 fi
 
-export PATH=~/.local/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/bin
-export MANPATH=~/.local/share/man:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/bin
+if [ -f "$HOME/dotfiles/lib/bashrc_platform" ]; then
+  . "$HOME/dotfiles/lib/bashrc_platform"
+fi
+
+case $- in
+  *i*) ;;
+  *)
+  return 0 2>/dev/null || exit 0
+    ;;
+esac
+
+if [ -f "$HOME/dotfiles/lib/bashrc_interactive" ]; then
+  . "$HOME/dotfiles/lib/bashrc_interactive"
+fi
+
+if [ -f "$HOME/dotfiles/lib/bashrc_prompt" ]; then
+  . "$HOME/dotfiles/lib/bashrc_prompt"
+fi
+
+if [ -f "$HOME/dotfiles/lib/bashrc_screen" ]; then
+  . "$HOME/dotfiles/lib/bashrc_screen"
+fi

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ "$(id -u)" -ne 0 ] && [ -f "$HOME/dotfiles/lib/bashrc_aliases" ]; then
+  . "$HOME/dotfiles/lib/bashrc_aliases"
+fi
+
+# Disable flow control over SSH so Ctrl-S does not freeze the terminal.
+if [ -n "${SSH_TTY-}" ] && tty -s; then
+  stty stop undef
+  stty start undef
+fi
+
+if tty -s; then
+  export GPG_TTY
+  GPG_TTY="$(tty)"
+fi

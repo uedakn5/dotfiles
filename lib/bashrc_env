@@ -1,0 +1,49 @@
+#!/bin/bash
+
+path_prepend() {
+  [ -n "$1" ] || return 0
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) PATH="$1${PATH:+:$PATH}" ;;
+  esac
+}
+
+path_append() {
+  [ -n "$1" ] || return 0
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) PATH="${PATH:+$PATH:}$1" ;;
+  esac
+}
+
+manpath_prepend() {
+  [ -n "$1" ] || return 0
+  if [ -n "${MANPATH-}" ]; then
+    case ":$MANPATH:" in
+      *":$1:"*) ;;
+      *) MANPATH="$1:$MANPATH" ;;
+    esac
+  else
+    # Keep the system default manpath by leaving a trailing colon.
+    MANPATH="$1:"
+  fi
+}
+
+if [ "$(id -u)" -ne 0 ]; then
+  path_prepend "$HOME/.local/bin"
+  if [ -d "$HOME/.local/share/man" ]; then
+    manpath_prepend "$HOME/.local/share/man"
+  fi
+fi
+
+export PATH
+[ -n "${MANPATH-}" ] && export MANPATH
+
+AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
+if [ -S "$AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK="$AUTH_SOCK"
+elif [ -n "${SSH_AUTH_SOCK-}" ] && [ -S "$SSH_AUTH_SOCK" ] && [ ! -L "$SSH_AUTH_SOCK" ]; then
+  ln -snf "$SSH_AUTH_SOCK" "$AUTH_SOCK" && export SSH_AUTH_SOCK="$AUTH_SOCK"
+else
+  export SSH_AUTH_SOCK="$AUTH_SOCK"
+fi

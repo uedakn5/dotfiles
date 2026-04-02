@@ -1,34 +1,51 @@
 #!/bin/bash
 
-DOT_FILES=(bashrc zshrc bash_profile screenrc nvimrc gitconfig)
+set -eu
+
+DOT_FILES=(bashrc bash_profile screenrc vimrc gitconfig)
 NVIM_DIR="${HOME}/.config/nvim"
 VIM_DIR="${HOME}/.vim"
-DOTFILENAME="dotfiles"
-DOTFILEPATH="${HOME}/${DOTFILENAME}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILEPATH="${SCRIPT_DIR}"
+LOCAL_GITCONFIG="${HOME}/.gitconfig.local"
 
-for file in ${DOT_FILES[@]}
-do
-  ln -nfs $DOTFILEPATH/$file $HOME/.$file
+link_file() {
+  src=$1
+  dest=$2
+  mkdir -p "$(dirname "$dest")"
+  ln -nfs "$src" "$dest"
+}
+
+is_wsl() {
+  [ -n "${WSL_DISTRO_NAME-}" ] || [ -n "${WSL_INTEROP-}" ] || grep -qi microsoft /proc/version 2>/dev/null
+}
+
+write_local_gitconfig() {
+  if is_wsl; then
+    cat > "$LOCAL_GITCONFIG" <<'EOF'
+[core]
+    sshCommand = ssh.exe
+EOF
+  else
+    : > "$LOCAL_GITCONFIG"
+  fi
+}
+
+for file in "${DOT_FILES[@]}"; do
+  link_file "$DOTFILEPATH/$file" "$HOME/.$file"
 done
 
-# mkdir -p $HOME/.config/fish
-# ln -nfs $HOME/dotf/config.fish $HOME/.config/fish/config.fish
-# ln -nfs $HOME/dotf/config.fish $HOME/config.fish
+write_local_gitconfig
 
-mkdir -p $NVIM_DIR
-mkdir -p $VIM_DIR
-ln -nfs $DOTFILEPATH/nvimrc ${NVIM_DIR}/__init.vim
-ln -nfs $DOTFILEPATH/init.lua ${NVIM_DIR}/init.lua
-if [ ! -d ${NVIM_DIR}/rc ]; then
-  ln -nfs $DOTFILEPATH/rc ${NVIM_DIR}/rc
-fi
-if [ ! -d ${VIM_DIR}/rc ]; then
-  ln -nfs $DOTFILEPATH/rc ${VIM_DIR}/rc
-fi
-ln -nfs $DOTFILEPATH/colors ${VIM_DIR}/colors
-ln -nfs $DOTFILEPATH/nvimrc $HOME/.vimrc
-ln -nfs $DOTFILEPATH/bin $HOME/bin
-ln -nfs $DOTFILEPATH/ftplugin ${NVIM_DIR}/after/ftplugin
-ln -nfs $DOTFILEPATH/ftplugin ${VIM_DIR}/after/ftplugin
-ln -nfs $DOTFILEPATH/plugin ${NVIM_DIR}/after/plugin
-ln -nfs $DOTFILEPATH/plugin ${VIM_DIR}/after/plugin
+mkdir -p "$NVIM_DIR/after" "$VIM_DIR/after"
+
+link_file "$DOTFILEPATH/init.lua" "$NVIM_DIR/init.lua"
+link_file "$DOTFILEPATH/rc" "$NVIM_DIR/rc"
+link_file "$DOTFILEPATH/rc" "$VIM_DIR/rc"
+link_file "$DOTFILEPATH/colors" "$VIM_DIR/colors"
+link_file "$DOTFILEPATH/vimrc" "$HOME/.vimrc"
+link_file "$DOTFILEPATH/bin" "$HOME/bin"
+link_file "$DOTFILEPATH/ftplugin" "$NVIM_DIR/after/ftplugin"
+link_file "$DOTFILEPATH/ftplugin" "$VIM_DIR/after/ftplugin"
+link_file "$DOTFILEPATH/plugin" "$NVIM_DIR/after/plugin"
+link_file "$DOTFILEPATH/plugin" "$VIM_DIR/after/plugin"
