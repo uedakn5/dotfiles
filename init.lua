@@ -287,15 +287,26 @@ end
 local common_plugins, vscode_plugins, neovim_plugins
 common_plugins = {
 	{
-		'phaazon/hop.nvim',
-		branch = 'v2',
+		'folke/flash.nvim',
+		event = 'VeryLazy',
 		config = function()
-			local hop = require('hop')
-			hop.setup { keys = 'etovxqpdygfblzhckisuran' }
-			vim.keymap.set('n', 'zw', ':HopWord<CR>', { silent = true })
-			vim.keymap.set('n', 'zl', ':HopLine<CR>', { silent = true })
-			vim.keymap.set('n', 'zz', ':HopChar1<CR>', { silent = true })
-			vim.keymap.set('n', 'zx', ':HopChar2<CR>', { silent = true })
+			require('flash').setup({})
+			vim.keymap.set('n', 'zw', function()
+				require('flash').jump({ pattern = [[\<\k]] })
+			end, { silent = true })
+			vim.keymap.set('n', 'zl', function()
+				require('flash').jump({
+					search = { mode = 'search' },
+					label = { after = { 0, 0 } },
+					pattern = '^',
+				})
+			end, { silent = true })
+			vim.keymap.set('n', 'zz', function()
+				require('flash').jump()
+			end, { silent = true })
+			vim.keymap.set('n', 'zx', function()
+				require('flash').jump()
+			end, { silent = true })
 		end,
 	},
 	{
