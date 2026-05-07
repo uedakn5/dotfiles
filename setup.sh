@@ -7,7 +7,6 @@ NVIM_DIR="${HOME}/.config/nvim"
 VIM_DIR="${HOME}/.vim"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILEPATH="${SCRIPT_DIR}"
-LOCAL_GITCONFIG="${HOME}/.gitconfig.local"
 
 . "$SCRIPT_DIR/lib/utils.sh"
 
@@ -18,22 +17,9 @@ link_file() {
   ln -nfs "$src" "$dest"
 }
 
-write_local_gitconfig() {
-  if is_wsl; then
-    cat > "$LOCAL_GITCONFIG" <<'EOF'
-[core]
-    sshCommand = ssh.exe
-EOF
-  else
-    : > "$LOCAL_GITCONFIG"
-  fi
-}
-
 for file in "${DOT_FILES[@]}"; do
   link_file "$DOTFILEPATH/$file" "$HOME/.$file"
 done
-
-write_local_gitconfig
 
 mkdir -p "$NVIM_DIR/after" "$VIM_DIR/after"
 
