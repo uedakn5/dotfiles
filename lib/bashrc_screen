@@ -23,7 +23,7 @@ should_start_screen() {
 # Turn off DEBUG trap until screen-specific handling is enabled below.
 trap "" DEBUG
 
-if [ -z "${STY-}" ] && [ "${TERM-}" != 'dumb' ] && command -v screen >/dev/null 2>&1 && should_start_screen; then
+if [ -z "${STY-}" ] && [ -z "${TMUX-}" ] && [ "${TERM-}" != 'dumb' ] && command -v screen >/dev/null 2>&1 && should_start_screen; then
   screen -rx || screen -D -RR
 fi
 

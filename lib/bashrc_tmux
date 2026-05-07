@@ -1,0 +1,46 @@
+#!/bin/bash
+
+tmux_mode="${DOTFILES_TMUX_MODE:-never}"
+
+should_start_tmux() {
+  case "$tmux_mode" in
+    always) return 0 ;;
+    never)  return 1 ;;
+    auto)   is_ssh_session; return $? ;;
+    *)      return 1 ;;
+  esac
+}
+
+trap "" DEBUG
+
+# Don't start tmux if already inside tmux or screen.
+if [ -z "${TMUX-}" ] && [ -z "${STY-}" ] && [ "${TERM-}" != 'dumb' ] && \
+   command -v tmux >/dev/null 2>&1 && should_start_tmux; then
+  tmux attach-session || tmux new-session
+fi
+
+if [ -n "${TMUX-}" ]; then
+  export PROMPT_COMMAND='true'
+
+  set_tmux_window() {
+    local hpwd
+    hpwd=$(basename "$PWD")
+    if [ "$hpwd" = "$USER" ]; then
+      hpwd='~'
+    fi
+    if [ ${#hpwd} -ge 10 ]; then
+      hpwd="..${hpwd:${#hpwd}-8:${#hpwd}}"
+    fi
+    case "$BASH_COMMAND" in
+      *\033]0*) ;;
+      "true")
+        printf '\ek%s\e\\' "$hpwd:"
+        ;;
+      *)
+        printf '\ek%s\e\\' "$hpwd:${BASH_COMMAND:0:20}"
+        ;;
+    esac
+  }
+
+  trap set_tmux_window DEBUG
+fi

@@ -31,3 +31,7 @@ fi
 if [ -f "$HOME/dotfiles/lib/bashrc_screen" ]; then
   . "$HOME/dotfiles/lib/bashrc_screen"
 fi
+
+if [ -f "$HOME/dotfiles/lib/bashrc_tmux" ]; then
+  . "$HOME/dotfiles/lib/bashrc_tmux"
+fi
