@@ -33,9 +33,9 @@ alias gi='git'
 alias vimdf='vimdiff'
 alias lessf='less +F'
 alias aki='du -h -d 1 | sort -h'
-alias mgmg='~/bin/linmerge'
+# alias mgmg='~/bin/linmerge'  # linmerge not in repo
 
-if is_wsl && command -v ssh.exe >/dev/null 2>&1; then
+if is_wsl && command -v ssh.exe >/dev/null 2>&1 && [ "$USE_WINDOWS_SSH" = "1" ]; then
   ssh() {
     ssh.exe "$@"
   }
@@ -67,5 +67,5 @@ mybkupdbtablenospace() {
 }
 
 mygrep() {
-  find . -type f | xargs grep $1
+  find . -type f | xargs grep -- "$1"
 }

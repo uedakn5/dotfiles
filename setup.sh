@@ -9,15 +9,13 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILEPATH="${SCRIPT_DIR}"
 LOCAL_GITCONFIG="${HOME}/.gitconfig.local"
 
+. "$SCRIPT_DIR/lib/utils.sh"
+
 link_file() {
   src=$1
   dest=$2
   mkdir -p "$(dirname "$dest")"
   ln -nfs "$src" "$dest"
-}
-
-is_wsl() {
-  [ -n "${WSL_DISTRO_NAME-}" ] || [ -n "${WSL_INTEROP-}" ] || grep -qi microsoft /proc/version 2>/dev/null
 }
 
 write_local_gitconfig() {
